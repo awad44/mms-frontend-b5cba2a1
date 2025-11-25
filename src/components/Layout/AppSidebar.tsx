@@ -23,6 +23,8 @@ import {
   BarChart3,
   ClipboardList,
   Home,
+  Bell,
+  CreditCard,
 } from 'lucide-react';
 
 export const AppSidebar = () => {
@@ -34,9 +36,9 @@ export const AppSidebar = () => {
     const citizenItems = [
       { title: 'Dashboard', url: '/dashboard', icon: LayoutDashboard },
       { title: 'My Requests', url: '/citizen/requests', icon: ClipboardList },
-      { title: 'Permits', url: '/citizen/permits', icon: FileText },
-      { title: 'Payments', url: '/citizen/payments', icon: DollarSign },
-      { title: 'Events', url: '/events', icon: Calendar },
+      { title: 'My Permits', url: '/citizen/permits', icon: FileText },
+      { title: 'My Payments', url: '/citizen/payments', icon: CreditCard },
+      { title: 'Notifications', url: '/notifications', icon: Bell },
     ];
 
     const adminItems = [
@@ -48,30 +50,35 @@ export const AppSidebar = () => {
       { title: 'Human Resources', url: '/admin/hr', icon: UserCog },
       { title: 'Events', url: '/admin/events', icon: Calendar },
       { title: 'Reports', url: '/admin/reports', icon: BarChart3 },
+      { title: 'Notifications', url: '/notifications', icon: Bell },
     ];
 
     const financeItems = [
       { title: 'Dashboard', url: '/dashboard', icon: LayoutDashboard },
       { title: 'Finance', url: '/admin/finance', icon: DollarSign },
       { title: 'Reports', url: '/admin/reports', icon: BarChart3 },
+      { title: 'Notifications', url: '/notifications', icon: Bell },
     ];
 
     const projectItems = [
       { title: 'Dashboard', url: '/dashboard', icon: LayoutDashboard },
       { title: 'Projects', url: '/admin/projects', icon: Building2 },
       { title: 'Reports', url: '/admin/reports', icon: BarChart3 },
+      { title: 'Notifications', url: '/notifications', icon: Bell },
     ];
 
     const hrItems = [
       { title: 'Dashboard', url: '/dashboard', icon: LayoutDashboard },
       { title: 'Human Resources', url: '/admin/hr', icon: UserCog },
       { title: 'Reports', url: '/admin/reports', icon: BarChart3 },
+      { title: 'Notifications', url: '/notifications', icon: Bell },
     ];
 
     const clerkItems = [
       { title: 'Dashboard', url: '/dashboard', icon: LayoutDashboard },
       { title: 'Citizen Services', url: '/admin/citizen-services', icon: Users },
       { title: 'Permits', url: '/admin/permits', icon: FileText },
+      { title: 'Notifications', url: '/notifications', icon: Bell },
     ];
 
     switch (user?.role) {
