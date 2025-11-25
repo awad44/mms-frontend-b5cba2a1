@@ -1,0 +1,249 @@
+import { DashboardLayout } from '@/components/Layout/DashboardLayout';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Download, FileText, TrendingUp, Users, DollarSign, Briefcase } from 'lucide-react';
+import { BarChart, Bar, LineChart, Line, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+
+export default function Reports() {
+  const financialData = [
+    { month: 'Jan', revenue: 45000, expenses: 32000 },
+    { month: 'Feb', revenue: 52000, expenses: 35000 },
+    { month: 'Mar', revenue: 48000, expenses: 31000 },
+    { month: 'Apr', revenue: 61000, expenses: 38000 },
+    { month: 'May', revenue: 55000, expenses: 36000 },
+    { month: 'Jun', revenue: 67000, expenses: 42000 },
+  ];
+
+  const requestsData = [
+    { name: 'Residency', value: 245 },
+    { name: 'Birth Cert', value: 189 },
+    { name: 'Permits', value: 156 },
+    { name: 'Complaints', value: 98 },
+    { name: 'Other', value: 67 },
+  ];
+
+  const projectsData = [
+    { month: 'Jan', completed: 4, inProgress: 8 },
+    { month: 'Feb', completed: 6, inProgress: 10 },
+    { month: 'Mar', completed: 5, inProgress: 12 },
+    { month: 'Apr', completed: 8, inProgress: 9 },
+    { month: 'May', completed: 7, inProgress: 11 },
+    { month: 'Jun', completed: 9, inProgress: 8 },
+  ];
+
+  const employeeData = [
+    { department: 'Admin', count: 12 },
+    { department: 'Finance', count: 8 },
+    { department: 'Urban Planning', count: 15 },
+    { department: 'HR', count: 6 },
+    { department: 'IT', count: 10 },
+  ];
+
+  const COLORS = ['hsl(var(--primary))', 'hsl(var(--secondary))', 'hsl(var(--accent))', '#8884d8', '#82ca9d'];
+
+  const exportReport = (type: string) => {
+    console.log(`Exporting ${type} report...`);
+  };
+
+  return (
+    <DashboardLayout>
+      <div className="space-y-6">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+          <div>
+            <h1 className="text-3xl font-bold text-foreground">Reports & Analytics</h1>
+            <p className="text-muted-foreground">Comprehensive system insights and data analysis</p>
+          </div>
+          <div className="flex gap-2">
+            <Button variant="outline" className="gap-2" onClick={() => exportReport('PDF')}>
+              <Download className="h-4 w-4" />
+              Export PDF
+            </Button>
+            <Button variant="outline" className="gap-2" onClick={() => exportReport('Excel')}>
+              <FileText className="h-4 w-4" />
+              Export Excel
+            </Button>
+          </div>
+        </div>
+
+        <div className="grid gap-4 md:grid-cols-4">
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between pb-2">
+              <CardTitle className="text-sm font-medium">Total Revenue</CardTitle>
+              <DollarSign className="h-4 w-4 text-muted-foreground" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">$328,000</div>
+              <p className="text-xs text-muted-foreground">+12% from last period</p>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between pb-2">
+              <CardTitle className="text-sm font-medium">Active Citizens</CardTitle>
+              <Users className="h-4 w-4 text-muted-foreground" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">12,458</div>
+              <p className="text-xs text-muted-foreground">+8% from last month</p>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between pb-2">
+              <CardTitle className="text-sm font-medium">Total Requests</CardTitle>
+              <FileText className="h-4 w-4 text-muted-foreground" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">755</div>
+              <p className="text-xs text-muted-foreground">+24% from last month</p>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between pb-2">
+              <CardTitle className="text-sm font-medium">Active Projects</CardTitle>
+              <Briefcase className="h-4 w-4 text-muted-foreground" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">8</div>
+              <p className="text-xs text-muted-foreground">2 completed this month</p>
+            </CardContent>
+          </Card>
+        </div>
+
+        <Tabs defaultValue="financial" className="space-y-4">
+          <TabsList>
+            <TabsTrigger value="financial">Financial</TabsTrigger>
+            <TabsTrigger value="requests">Citizen Requests</TabsTrigger>
+            <TabsTrigger value="projects">Projects</TabsTrigger>
+            <TabsTrigger value="hr">Human Resources</TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="financial" className="space-y-4">
+            <Card>
+              <CardHeader>
+                <CardTitle>Revenue vs Expenses</CardTitle>
+                <CardDescription>Monthly financial overview for the past 6 months</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <ResponsiveContainer width="100%" height={300}>
+                  <BarChart data={financialData}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="month" />
+                    <YAxis />
+                    <Tooltip />
+                    <Legend />
+                    <Bar dataKey="revenue" fill="hsl(var(--primary))" name="Revenue" />
+                    <Bar dataKey="expenses" fill="hsl(var(--secondary))" name="Expenses" />
+                  </BarChart>
+                </ResponsiveContainer>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="requests" className="space-y-4">
+            <div className="grid gap-4 md:grid-cols-2">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Requests by Type</CardTitle>
+                  <CardDescription>Distribution of citizen service requests</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <ResponsiveContainer width="100%" height={300}>
+                    <PieChart>
+                      <Pie
+                        data={requestsData}
+                        cx="50%"
+                        cy="50%"
+                        labelLine={false}
+                        label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+                        outerRadius={80}
+                        fill="#8884d8"
+                        dataKey="value"
+                      >
+                        {requestsData.map((entry, index) => (
+                          <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                        ))}
+                      </Pie>
+                      <Tooltip />
+                    </PieChart>
+                  </ResponsiveContainer>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardHeader>
+                  <CardTitle>Request Processing Time</CardTitle>
+                  <CardDescription>Average days to complete requests</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm">Residency Certificate</span>
+                      <span className="font-semibold">3.2 days</span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm">Birth Certificate</span>
+                      <span className="font-semibold">2.8 days</span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm">Business Permit</span>
+                      <span className="font-semibold">7.5 days</span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm">Construction Permit</span>
+                      <span className="font-semibold">14.2 days</span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm">Complaint Resolution</span>
+                      <span className="font-semibold">5.6 days</span>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </TabsContent>
+
+          <TabsContent value="projects" className="space-y-4">
+            <Card>
+              <CardHeader>
+                <CardTitle>Project Completion Trends</CardTitle>
+                <CardDescription>Completed vs in-progress projects over time</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <ResponsiveContainer width="100%" height={300}>
+                  <LineChart data={projectsData}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="month" />
+                    <YAxis />
+                    <Tooltip />
+                    <Legend />
+                    <Line type="monotone" dataKey="completed" stroke="hsl(var(--primary))" name="Completed" />
+                    <Line type="monotone" dataKey="inProgress" stroke="hsl(var(--secondary))" name="In Progress" />
+                  </LineChart>
+                </ResponsiveContainer>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="hr" className="space-y-4">
+            <Card>
+              <CardHeader>
+                <CardTitle>Employee Distribution</CardTitle>
+                <CardDescription>Staff count by department</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <ResponsiveContainer width="100%" height={300}>
+                  <BarChart data={employeeData} layout="vertical">
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis type="number" />
+                    <YAxis dataKey="department" type="category" width={120} />
+                    <Tooltip />
+                    <Bar dataKey="count" fill="hsl(var(--primary))" />
+                  </BarChart>
+                </ResponsiveContainer>
+              </CardContent>
+            </Card>
+          </TabsContent>
+        </Tabs>
+      </div>
+    </DashboardLayout>
+  );
+}
