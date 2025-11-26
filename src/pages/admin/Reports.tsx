@@ -1,4 +1,3 @@
-import { DashboardLayout } from '@/components/Layout/DashboardLayout';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -102,8 +101,7 @@ Jun,67000`;
   };
 
   return (
-    <DashboardLayout>
-      <div className="space-y-6">
+    <div className="space-y-6">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
           <div>
             <h1 className="text-3xl font-bold text-foreground">Reports & Analytics</h1>
@@ -299,6 +297,5 @@ Jun,67000`;
           </TabsContent>
         </Tabs>
       </div>
-    </DashboardLayout>
   );
 }
