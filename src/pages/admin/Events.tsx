@@ -4,7 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
-import { Calendar, Plus, Search, MapPin, Users, Clock, Filter } from 'lucide-react';
+import { Calendar, Plus, Search, MapPin, Users, Clock, Filter, Edit, Eye } from 'lucide-react';
 import { mockEvents } from '@/lib/mockData';
 import { Event } from '@/types';
 import {
@@ -25,12 +25,23 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { toast } from 'sonner';
 
 export default function Events() {
   const [events, setEvents] = useState<Event[]>(mockEvents);
   const [searchQuery, setSearchQuery] = useState('');
   const [filterType, setFilterType] = useState<string>('all');
   const [filterStatus, setFilterStatus] = useState<string>('all');
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
+  const [formData, setFormData] = useState({
+    title: '',
+    description: '',
+    type: 'public' as Event['type'],
+    date: '',
+    location: '',
+    capacity: '',
+  });
 
   const filteredEvents = events.filter((event) => {
     const matchesSearch = event.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -60,6 +71,56 @@ export default function Events() {
     }
   };
 
+  const handleCreateEvent = () => {
+    if (!formData.title || !formData.date || !formData.location) {
+      toast.error('Please fill in all required fields');
+      return;
+    }
+
+    const newEvent: Event = {
+      id: `evt-${Date.now()}`,
+      title: formData.title,
+      description: formData.description,
+      type: formData.type,
+      date: formData.date,
+      location: formData.location,
+      capacity: formData.capacity ? parseInt(formData.capacity) : undefined,
+      registered: 0,
+      organizer: 'Municipality',
+      status: 'upcoming',
+    };
+
+    setEvents([newEvent, ...events]);
+    setDialogOpen(false);
+    setFormData({
+      title: '',
+      description: '',
+      type: 'public',
+      date: '',
+      location: '',
+      capacity: '',
+    });
+    toast.success('Event created successfully');
+  };
+
+  const handleViewEvent = (event: Event) => {
+    setSelectedEvent(event);
+    toast.info(`Viewing event: ${event.title}`);
+  };
+
+  const handleEditEvent = (event: Event) => {
+    setFormData({
+      title: event.title,
+      description: event.description,
+      type: event.type,
+      date: event.date,
+      location: event.location,
+      capacity: event.capacity?.toString() || '',
+    });
+    setSelectedEvent(event);
+    setDialogOpen(true);
+  };
+
   return (
     <DashboardLayout>
       <div className="space-y-6">
@@ -68,33 +129,53 @@ export default function Events() {
             <h1 className="text-3xl font-bold text-foreground">Events & Public Notices</h1>
             <p className="text-muted-foreground">Manage community events and announcements</p>
           </div>
-          <Dialog>
+          <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
             <DialogTrigger asChild>
-              <Button className="gap-2">
+              <Button className="gap-2" onClick={() => {
+                setSelectedEvent(null);
+                setFormData({
+                  title: '',
+                  description: '',
+                  type: 'public',
+                  date: '',
+                  location: '',
+                  capacity: '',
+                });
+              }}>
                 <Plus className="h-4 w-4" />
                 Create Event
               </Button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[525px]">
+            <DialogContent className="sm:max-w-[525px] max-h-[90vh] overflow-y-auto">
               <DialogHeader>
-                <DialogTitle>Create New Event</DialogTitle>
+                <DialogTitle>{selectedEvent ? 'Edit Event' : 'Create New Event'}</DialogTitle>
                 <DialogDescription>
-                  Schedule a new public event or announcement
+                  {selectedEvent ? 'Update event details' : 'Schedule a new public event or announcement'}
                 </DialogDescription>
               </DialogHeader>
               <div className="grid gap-4 py-4">
                 <div className="space-y-2">
-                  <Label htmlFor="title">Event Title</Label>
-                  <Input id="title" placeholder="Town Hall Meeting" />
+                  <Label htmlFor="title">Event Title *</Label>
+                  <Input 
+                    id="title" 
+                    placeholder="Town Hall Meeting"
+                    value={formData.title}
+                    onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                  />
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="description">Description</Label>
-                  <Textarea id="description" placeholder="Event details..." />
+                  <Textarea 
+                    id="description" 
+                    placeholder="Event details..."
+                    value={formData.description}
+                    onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                  />
                 </div>
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="type">Type</Label>
-                    <Select>
+                    <Select value={formData.type} onValueChange={(value: Event['type']) => setFormData({ ...formData, type: value })}>
                       <SelectTrigger>
                         <SelectValue placeholder="Select type" />
                       </SelectTrigger>
@@ -107,23 +188,42 @@ export default function Events() {
                     </Select>
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="date">Date</Label>
-                    <Input id="date" type="date" />
+                    <Label htmlFor="date">Date *</Label>
+                    <Input 
+                      id="date" 
+                      type="date"
+                      value={formData.date}
+                      onChange={(e) => setFormData({ ...formData, date: e.target.value })}
+                    />
                   </div>
                 </div>
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="location">Location</Label>
-                    <Input id="location" placeholder="City Hall" />
+                    <Label htmlFor="location">Location *</Label>
+                    <Input 
+                      id="location" 
+                      placeholder="City Hall"
+                      value={formData.location}
+                      onChange={(e) => setFormData({ ...formData, location: e.target.value })}
+                    />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="capacity">Capacity</Label>
-                    <Input id="capacity" type="number" placeholder="100" />
+                    <Input 
+                      id="capacity" 
+                      type="number" 
+                      placeholder="100"
+                      value={formData.capacity}
+                      onChange={(e) => setFormData({ ...formData, capacity: e.target.value })}
+                    />
                   </div>
                 </div>
               </div>
-              <DialogFooter>
-                <Button type="submit">Create Event</Button>
+              <DialogFooter className="flex-col sm:flex-row gap-2">
+                <Button variant="outline" onClick={() => setDialogOpen(false)}>Cancel</Button>
+                <Button type="submit" onClick={handleCreateEvent}>
+                  {selectedEvent ? 'Update Event' : 'Create Event'}
+                </Button>
               </DialogFooter>
             </DialogContent>
           </Dialog>
@@ -207,11 +307,23 @@ export default function Events() {
                         </div>
                       </div>
                       <div className="flex lg:flex-col gap-2">
-                        <Button variant="outline" size="sm" className="flex-1">
+                        <Button 
+                          variant="outline" 
+                          size="sm" 
+                          className="flex-1 gap-2"
+                          onClick={() => handleEditEvent(event)}
+                        >
+                          <Edit className="h-3 w-3" />
                           Edit
                         </Button>
-                        <Button variant="outline" size="sm" className="flex-1">
-                          View Details
+                        <Button 
+                          variant="outline" 
+                          size="sm" 
+                          className="flex-1 gap-2"
+                          onClick={() => handleViewEvent(event)}
+                        >
+                          <Eye className="h-3 w-3" />
+                          View
                         </Button>
                       </div>
                     </div>

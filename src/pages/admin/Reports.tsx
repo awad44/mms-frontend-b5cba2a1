@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Download, FileText, TrendingUp, Users, DollarSign, Briefcase } from 'lucide-react';
 import { BarChart, Bar, LineChart, Line, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { toast } from 'sonner';
 
 export default function Reports() {
   const financialData = [
@@ -43,7 +44,61 @@ export default function Reports() {
   const COLORS = ['hsl(var(--primary))', 'hsl(var(--secondary))', 'hsl(var(--accent))', '#8884d8', '#82ca9d'];
 
   const exportReport = (type: string) => {
-    console.log(`Exporting ${type} report...`);
+    const timestamp = new Date().toISOString().split('T')[0];
+    const filename = `municipality-report-${timestamp}`;
+    
+    if (type === 'PDF') {
+      // Simulate PDF export
+      const dataStr = `Municipality Management System Report
+Generated: ${new Date().toLocaleString()}
+
+Financial Summary:
+- Total Revenue: $328,000
+- Active Citizens: 12,458
+- Total Requests: 755
+- Active Projects: 8
+
+This is a mock PDF export. In a real application, this would generate a proper PDF file.`;
+      
+      const blob = new Blob([dataStr], { type: 'text/plain' });
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `${filename}.txt`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+      
+      toast.success('Report exported as text file (PDF simulation)');
+    } else if (type === 'Excel') {
+      // Simulate Excel export with CSV
+      const csvData = `Category,Value,Change
+Total Revenue,$328000,+12%
+Active Citizens,12458,+8%
+Total Requests,755,+24%
+Active Projects,8,2 completed
+
+Monthly Revenue:
+Jan,45000
+Feb,52000
+Mar,48000
+Apr,61000
+May,55000
+Jun,67000`;
+      
+      const blob = new Blob([csvData], { type: 'text/csv' });
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `${filename}.csv`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+      
+      toast.success('Report exported as CSV file (Excel simulation)');
+    }
   };
 
   return (
