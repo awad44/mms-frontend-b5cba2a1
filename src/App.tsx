@@ -54,7 +54,7 @@ const App = () => (
             <Route path="/admin/projects" element={<ProtectedRoute allowedRoles={['admin', 'project_manager']}><DashboardLayout><Projects /></DashboardLayout></ProtectedRoute>} />
             <Route path="/admin/hr" element={<ProtectedRoute allowedRoles={['admin', 'hr_manager']}><DashboardLayout><HumanResources /></DashboardLayout></ProtectedRoute>} />
             <Route path="/admin/events" element={<ProtectedRoute allowedRoles={['admin']}><DashboardLayout><Events /></DashboardLayout></ProtectedRoute>} />
-            <Route path="/admin/reports" element={<ProtectedRoute allowedRoles={['admin']}><DashboardLayout><Reports /></DashboardLayout></ProtectedRoute>} />
+            <Route path="/admin/reports" element={<ProtectedRoute allowedRoles={['admin', 'finance', 'project_manager', 'hr_manager']}><DashboardLayout><Reports /></DashboardLayout></ProtectedRoute>} />
             
             {/* Citizen Routes */}
             <Route path="/citizen/requests" element={<ProtectedRoute allowedRoles={['citizen']}><DashboardLayout><MyRequests /></DashboardLayout></ProtectedRoute>} />
