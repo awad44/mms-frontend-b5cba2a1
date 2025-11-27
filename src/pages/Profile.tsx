@@ -1,4 +1,3 @@
-import { DashboardLayout } from '@/components/Layout/DashboardLayout';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -12,8 +11,7 @@ export default function Profile() {
   const { user } = useAuth();
 
   return (
-    <DashboardLayout>
-      <div className="space-y-6 max-w-4xl">
+    <div className="space-y-6 max-w-4xl">
         <div>
           <h1 className="text-3xl font-bold text-foreground">Profile</h1>
           <p className="text-muted-foreground">Manage your account information</p>
@@ -158,6 +156,5 @@ export default function Profile() {
           </CardContent>
         </Card>
       </div>
-    </DashboardLayout>
   );
 }
