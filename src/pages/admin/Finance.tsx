@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -10,9 +11,12 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { DollarSign, TrendingUp, Clock, AlertCircle, Download } from 'lucide-react';
 import { mockPayments } from '@/lib/mockData';
 import { PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { useToast } from '@/hooks/use-toast';
+import type { Payment } from '@/types';
 
 const revenueData = [
   { name: 'Property Tax', value: 450000, color: '#0088FE' },
@@ -32,6 +36,28 @@ const monthlyRevenue = [
 ];
 
 export default function Finance() {
+  const { toast } = useToast();
+  const [activeTab, setActiveTab] = useState('all');
+  const [receiptDialogOpen, setReceiptDialogOpen] = useState(false);
+  const [selectedPayment, setSelectedPayment] = useState<Payment | null>(null);
+
+  const handleExportReport = () => {
+    toast({
+      title: "Export Started",
+      description: "Downloading financial report as CSV...",
+    });
+  };
+
+  const handleViewReceipt = (payment: Payment) => {
+    setSelectedPayment(payment);
+    setReceiptDialogOpen(true);
+  };
+
+  const getFilteredPayments = () => {
+    if (activeTab === 'all') return mockPayments;
+    return mockPayments.filter(p => p.status === activeTab);
+  };
+
   return (
     <div className="space-y-6">
       <div>
@@ -163,21 +189,21 @@ export default function Finance() {
               <CardTitle>Payment Transactions</CardTitle>
               <CardDescription>Recent payment activity</CardDescription>
             </div>
-            <Button>
+            <Button onClick={handleExportReport}>
               <Download className="h-4 w-4 mr-2" />
               Export Report
             </Button>
           </div>
         </CardHeader>
         <CardContent>
-          <Tabs defaultValue="all">
+          <Tabs value={activeTab} onValueChange={setActiveTab}>
             <TabsList>
               <TabsTrigger value="all">All</TabsTrigger>
               <TabsTrigger value="paid">Paid</TabsTrigger>
               <TabsTrigger value="pending">Pending</TabsTrigger>
               <TabsTrigger value="overdue">Overdue</TabsTrigger>
             </TabsList>
-            <TabsContent value="all" className="mt-4">
+            <TabsContent value={activeTab} className="mt-4">
               <div className="rounded-md border">
                 <Table>
                   <TableHeader>
@@ -192,25 +218,33 @@ export default function Finance() {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {mockPayments.map((payment) => (
-                      <TableRow key={payment.id}>
-                        <TableCell className="font-medium">{payment.id}</TableCell>
-                        <TableCell>{payment.citizenName}</TableCell>
-                        <TableCell className="capitalize">{payment.type.replace('_', ' ')}</TableCell>
-                        <TableCell>${payment.amount.toLocaleString()}</TableCell>
-                        <TableCell>{new Date(payment.dueDate).toLocaleDateString()}</TableCell>
-                        <TableCell>
-                          {payment.status === 'paid' && <Badge className="bg-success">Paid</Badge>}
-                          {payment.status === 'pending' && <Badge variant="outline">Pending</Badge>}
-                          {payment.status === 'overdue' && <Badge variant="destructive">Overdue</Badge>}
-                        </TableCell>
-                        <TableCell>
-                          <Button variant="outline" size="sm">
-                            View Receipt
-                          </Button>
+                    {getFilteredPayments().length > 0 ? (
+                      getFilteredPayments().map((payment) => (
+                        <TableRow key={payment.id}>
+                          <TableCell className="font-medium">{payment.id}</TableCell>
+                          <TableCell>{payment.citizenName}</TableCell>
+                          <TableCell className="capitalize">{payment.type.replace('_', ' ')}</TableCell>
+                          <TableCell>${payment.amount.toLocaleString()}</TableCell>
+                          <TableCell>{new Date(payment.dueDate).toLocaleDateString()}</TableCell>
+                          <TableCell>
+                            {payment.status === 'paid' && <Badge className="bg-success">Paid</Badge>}
+                            {payment.status === 'pending' && <Badge variant="outline">Pending</Badge>}
+                            {payment.status === 'overdue' && <Badge variant="destructive">Overdue</Badge>}
+                          </TableCell>
+                          <TableCell>
+                            <Button variant="outline" size="sm" onClick={() => handleViewReceipt(payment)}>
+                              View Receipt
+                            </Button>
+                          </TableCell>
+                        </TableRow>
+                      ))
+                    ) : (
+                      <TableRow>
+                        <TableCell colSpan={7} className="text-center py-8 text-muted-foreground">
+                          No {activeTab === 'all' ? '' : activeTab} payments found
                         </TableCell>
                       </TableRow>
-                    ))}
+                    )}
                   </TableBody>
                 </Table>
               </div>
@@ -218,6 +252,57 @@ export default function Finance() {
           </Tabs>
         </CardContent>
       </Card>
+
+      <Dialog open={receiptDialogOpen} onOpenChange={setReceiptDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Payment Receipt</DialogTitle>
+            <DialogDescription>Receipt for {selectedPayment?.id}</DialogDescription>
+          </DialogHeader>
+          {selectedPayment && (
+            <div className="space-y-4">
+              <div className="border-b pb-4">
+                <p className="text-sm font-medium">Payment ID</p>
+                <p className="text-sm text-muted-foreground">{selectedPayment.id}</p>
+              </div>
+              <div>
+                <p className="text-sm font-medium">Citizen</p>
+                <p className="text-sm text-muted-foreground">{selectedPayment.citizenName}</p>
+              </div>
+              <div>
+                <p className="text-sm font-medium">Type</p>
+                <p className="text-sm text-muted-foreground capitalize">{selectedPayment.type.replace('_', ' ')}</p>
+              </div>
+              <div>
+                <p className="text-sm font-medium">Amount</p>
+                <p className="text-lg font-bold">${selectedPayment.amount.toLocaleString()}</p>
+              </div>
+              <div>
+                <p className="text-sm font-medium">Due Date</p>
+                <p className="text-sm text-muted-foreground">{new Date(selectedPayment.dueDate).toLocaleDateString()}</p>
+              </div>
+              <div>
+                <p className="text-sm font-medium">Status</p>
+                <Badge className={
+                  selectedPayment.status === 'paid' ? 'bg-success' :
+                  selectedPayment.status === 'pending' ? 'bg-accent' : 'bg-destructive'
+                }>
+                  {selectedPayment.status}
+                </Badge>
+              </div>
+              <Button className="w-full" onClick={() => {
+                toast({
+                  title: "Receipt Downloaded",
+                  description: `Receipt for ${selectedPayment.id} has been downloaded.`,
+                });
+              }}>
+                <Download className="h-4 w-4 mr-2" />
+                Download Receipt
+              </Button>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

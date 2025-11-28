@@ -10,9 +10,12 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Eye, Download, FileText } from 'lucide-react';
 import { mockPermits } from '@/lib/mockData';
 import { Progress } from '@/components/ui/progress';
+import { useToast } from '@/hooks/use-toast';
+import type { Permit } from '@/types';
 
 const workflowSteps = [
   { label: 'Submitted', status: 'completed' },
@@ -23,6 +26,29 @@ const workflowSteps = [
 ];
 
 export default function Permits() {
+  const { toast } = useToast();
+  const [viewDialogOpen, setViewDialogOpen] = useState(false);
+  const [selectedPermit, setSelectedPermit] = useState<Permit | null>(null);
+
+  const handleViewPermit = (permit: Permit) => {
+    setSelectedPermit(permit);
+    setViewDialogOpen(true);
+  };
+
+  const handleDownloadPermit = (permit: Permit) => {
+    toast({
+      title: "Download Started",
+      description: `Downloading permit ${permit.id} document...`,
+    });
+  };
+
+  const handleDownloadDocument = (docName: string) => {
+    toast({
+      title: "Download Started",
+      description: `Downloading ${docName}...`,
+    });
+  };
+
   return (
     <div className="space-y-6">
       <div>
@@ -92,10 +118,10 @@ export default function Permits() {
                       <TableCell>${permit.fee.toLocaleString()}</TableCell>
                       <TableCell>
                         <div className="flex gap-2">
-                          <Button variant="ghost" size="icon">
+                          <Button variant="ghost" size="icon" onClick={() => handleViewPermit(permit)}>
                             <Eye className="h-4 w-4" />
                           </Button>
-                          <Button variant="ghost" size="icon">
+                          <Button variant="ghost" size="icon" onClick={() => handleDownloadPermit(permit)}>
                             <Download className="h-4 w-4" />
                           </Button>
                         </div>
@@ -174,7 +200,7 @@ export default function Permits() {
                   <p className="text-sm font-medium">{doc}</p>
                   <p className="text-xs text-muted-foreground">PDF, 2.4 MB</p>
                 </div>
-                <Button variant="ghost" size="icon">
+                <Button variant="ghost" size="icon" onClick={() => handleDownloadDocument(doc)}>
                   <Download className="h-4 w-4" />
                 </Button>
               </div>
@@ -182,6 +208,51 @@ export default function Permits() {
           </div>
         </CardContent>
       </Card>
+
+      <Dialog open={viewDialogOpen} onOpenChange={setViewDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Permit Details</DialogTitle>
+            <DialogDescription>Complete information for {selectedPermit?.id}</DialogDescription>
+          </DialogHeader>
+          {selectedPermit && (
+            <div className="space-y-4">
+              <div>
+                <p className="text-sm font-medium">Permit ID</p>
+                <p className="text-sm text-muted-foreground">{selectedPermit.id}</p>
+              </div>
+              <div>
+                <p className="text-sm font-medium">Applicant</p>
+                <p className="text-sm text-muted-foreground">{selectedPermit.citizenName}</p>
+              </div>
+              <div>
+                <p className="text-sm font-medium">Type</p>
+                <p className="text-sm text-muted-foreground capitalize">{selectedPermit.type}</p>
+              </div>
+              <div>
+                <p className="text-sm font-medium">Status</p>
+                <Badge className={selectedPermit.status === 'approved' ? 'bg-success' : 'bg-accent'}>
+                  {selectedPermit.status === 'approved' ? 'Approved' : 'In Review'}
+                </Badge>
+              </div>
+              <div>
+                <p className="text-sm font-medium">Submitted Date</p>
+                <p className="text-sm text-muted-foreground">{new Date(selectedPermit.submittedDate).toLocaleDateString()}</p>
+              </div>
+              {selectedPermit.expiryDate && (
+                <div>
+                  <p className="text-sm font-medium">Expiry Date</p>
+                  <p className="text-sm text-muted-foreground">{new Date(selectedPermit.expiryDate).toLocaleDateString()}</p>
+                </div>
+              )}
+              <div>
+                <p className="text-sm font-medium">Fee</p>
+                <p className="text-sm text-muted-foreground">${selectedPermit.fee.toLocaleString()}</p>
+              </div>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
