@@ -173,8 +173,8 @@ export default function MyRequests() {
                         <p className="text-sm text-muted-foreground">{request.description}</p>
                         <div className="flex flex-wrap gap-4 text-xs text-muted-foreground">
                           <span>ID: {request.id}</span>
-                          <span>Submitted: {new Date(request.submittedDate).toLocaleDateString()}</span>
-                          <span>Updated: {new Date(request.lastUpdated).toLocaleDateString()}</span>
+                          <span>Submitted: {new Date(request.submission_date).toLocaleDateString()}</span>
+                          {request.completion_date && <span>Completed: {new Date(request.completion_date).toLocaleDateString()}</span>}
                           {request.assignedTo && <span>Assigned to: {request.assignedTo}</span>}
                         </div>
                       </div>

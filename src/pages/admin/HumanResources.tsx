@@ -87,64 +87,64 @@ export default function HumanResources() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6 p-4 sm:p-0">
       <div>
-        <h1 className="text-3xl font-bold text-foreground">Human Resources</h1>
-        <p className="text-muted-foreground mt-1">Employee management and HR operations</p>
+        <h1 className="text-2xl sm:text-3xl font-bold text-foreground">Human Resources</h1>
+        <p className="text-sm sm:text-base text-muted-foreground mt-1">Employee management and HR operations</p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
         <Card>
-          <CardContent className="p-6">
+          <CardContent className="p-4 sm:p-6">
             <div className="flex items-center justify-between">
               <div>
-                <div className="text-2xl font-bold">156</div>
-                <div className="text-sm text-muted-foreground">Total Employees</div>
+                <div className="text-xl sm:text-2xl font-bold">156</div>
+                <div className="text-xs sm:text-sm text-muted-foreground">Total Employees</div>
               </div>
-              <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center">
-                <Users className="h-6 w-6 text-primary" />
+              <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-full bg-primary/10 flex items-center justify-center">
+                <Users className="h-5 w-5 sm:h-6 sm:w-6 text-primary" />
               </div>
             </div>
           </CardContent>
         </Card>
 
         <Card>
-          <CardContent className="p-6">
+          <CardContent className="p-4 sm:p-6">
             <div className="flex items-center justify-between">
               <div>
-                <div className="text-2xl font-bold">142</div>
-                <div className="text-sm text-muted-foreground">Present Today</div>
+                <div className="text-xl sm:text-2xl font-bold">142</div>
+                <div className="text-xs sm:text-sm text-muted-foreground">Present Today</div>
               </div>
-              <div className="h-12 w-12 rounded-full bg-success/10 flex items-center justify-center">
-                <UserCheck className="h-6 w-6 text-success" />
+              <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-full bg-success/10 flex items-center justify-center">
+                <UserCheck className="h-5 w-5 sm:h-6 sm:w-6 text-success" />
               </div>
             </div>
           </CardContent>
         </Card>
 
         <Card>
-          <CardContent className="p-6">
+          <CardContent className="p-4 sm:p-6">
             <div className="flex items-center justify-between">
               <div>
-                <div className="text-2xl font-bold">12</div>
-                <div className="text-sm text-muted-foreground">On Leave</div>
+                <div className="text-xl sm:text-2xl font-bold">12</div>
+                <div className="text-xs sm:text-sm text-muted-foreground">On Leave</div>
               </div>
-              <div className="h-12 w-12 rounded-full bg-warning/10 flex items-center justify-center">
-                <Clock className="h-6 w-6 text-warning" />
+              <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-full bg-warning/10 flex items-center justify-center">
+                <Clock className="h-5 w-5 sm:h-6 sm:w-6 text-warning" />
               </div>
             </div>
           </CardContent>
         </Card>
 
         <Card>
-          <CardContent className="p-6">
+          <CardContent className="p-4 sm:p-6">
             <div className="flex items-center justify-between">
               <div>
-                <div className="text-2xl font-bold">5</div>
-                <div className="text-sm text-muted-foreground">Pending Approvals</div>
+                <div className="text-xl sm:text-2xl font-bold">5</div>
+                <div className="text-xs sm:text-sm text-muted-foreground">Pending Approvals</div>
               </div>
-              <div className="h-12 w-12 rounded-full bg-accent/10 flex items-center justify-center">
-                <AlertCircle className="h-6 w-6 text-accent" />
+              <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-full bg-accent/10 flex items-center justify-center">
+                <AlertCircle className="h-5 w-5 sm:h-6 sm:w-6 text-accent" />
               </div>
             </div>
           </CardContent>
@@ -152,48 +152,52 @@ export default function HumanResources() {
       </div>
 
       <Tabs defaultValue="employees">
-        <TabsList>
-          <TabsTrigger value="employees">Employees</TabsTrigger>
-          <TabsTrigger value="attendance">Attendance</TabsTrigger>
-          <TabsTrigger value="leaves">Leave Requests</TabsTrigger>
-          <TabsTrigger value="payroll">Payroll</TabsTrigger>
+        <TabsList className="grid w-full grid-cols-2 sm:grid-cols-4">
+          <TabsTrigger value="employees" className="text-xs sm:text-sm">Employees</TabsTrigger>
+          <TabsTrigger value="attendance" className="text-xs sm:text-sm">Attendance</TabsTrigger>
+          <TabsTrigger value="leaves" className="text-xs sm:text-sm">Leave Requests</TabsTrigger>
+          <TabsTrigger value="payroll" className="text-xs sm:text-sm">Payroll</TabsTrigger>
         </TabsList>
 
-        <TabsContent value="employees" className="mt-6">
+        <TabsContent value="employees" className="mt-4 sm:mt-6">
           <Card>
             <CardHeader>
-              <div className="flex justify-between items-center">
+              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 sm:gap-0">
                 <div>
-                  <CardTitle>Employee Directory</CardTitle>
-                  <CardDescription>Complete staff roster</CardDescription>
+                  <CardTitle className="text-lg sm:text-xl">Employee Directory</CardTitle>
+                  <CardDescription className="text-xs sm:text-sm">Complete staff roster</CardDescription>
                 </div>
-                <Button onClick={() => setAddEmployeeOpen(true)}>Add Employee</Button>
+                <Button onClick={() => setAddEmployeeOpen(true)} className="w-full sm:w-auto text-sm">Add Employee</Button>
               </div>
             </CardHeader>
             <CardContent>
-              <div className="grid gap-4">
+              <div className="grid gap-3 sm:gap-4">
                 {mockEmployees.map((employee) => (
                   <Card key={employee.id}>
-                    <CardContent className="p-4">
-                      <div className="flex items-center gap-4">
-                        <Avatar className="h-12 w-12">
-                          <AvatarFallback>
-                            {employee.name.split(' ').map(n => n[0]).join('')}
+                    <CardContent className="p-3 sm:p-4">
+                      <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4">
+                        <Avatar className="h-10 w-10 sm:h-12 sm:w-12">
+                          <AvatarFallback className="text-xs sm:text-sm">
+                            {employee.name?.split(' ').map(n => n[0]).join('') || 'NA'}
                           </AvatarFallback>
                         </Avatar>
-                        <div className="flex-1">
-                          <h4 className="font-semibold">{employee.name}</h4>
-                          <p className="text-sm text-muted-foreground">{employee.position}</p>
-                          <p className="text-xs text-muted-foreground mt-1">{employee.department}</p>
+                        <div className="flex-1 min-w-0">
+                          <h4 className="font-semibold text-sm sm:text-base truncate">{employee.name}</h4>
+                          <p className="text-xs sm:text-sm text-muted-foreground truncate">{employee.position}</p>
+                          <p className="text-xs text-muted-foreground mt-1 truncate">{employee.departmentName}</p>
                         </div>
-                        <div className="hidden md:block text-right">
-                          <p className="text-sm font-medium">{employee.email}</p>
-                          <p className="text-sm text-muted-foreground">{employee.phone}</p>
+                        <div className="hidden lg:block text-right">
+                          <p className="text-xs sm:text-sm font-medium truncate">{employee.email}</p>
+                          <p className="text-xs sm:text-sm text-muted-foreground">{employee.phone}</p>
                         </div>
-                        <Badge variant={employee.status === 'active' ? 'default' : 'outline'}>
-                          {employee.status}
-                        </Badge>
-                        <Button variant="outline" size="sm" onClick={() => handleViewProfile(employee)}>View Profile</Button>
+                        <div className="flex items-center gap-2 w-full sm:w-auto">
+                          <Badge variant={employee.status === 'active' ? 'default' : 'outline'} className="text-xs">
+                            {employee.status}
+                          </Badge>
+                          <Button variant="outline" size="sm" onClick={() => handleViewProfile(employee)} className="text-xs h-8 flex-1 sm:flex-none">
+                            View Profile
+                          </Button>
+                        </div>
                       </div>
                     </CardContent>
                   </Card>
@@ -203,44 +207,44 @@ export default function HumanResources() {
           </Card>
         </TabsContent>
 
-        <TabsContent value="attendance" className="mt-6">
+        <TabsContent value="attendance" className="mt-4 sm:mt-6">
           <Card>
             <CardHeader>
-              <CardTitle>Attendance Tracker</CardTitle>
-              <CardDescription>Daily attendance records</CardDescription>
+              <CardTitle className="text-lg sm:text-xl">Attendance Tracker</CardTitle>
+              <CardDescription className="text-xs sm:text-sm">Daily attendance records</CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="rounded-md border">
+              <div className="rounded-md border overflow-x-auto">
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>Employee</TableHead>
-                      <TableHead>Date</TableHead>
-                      <TableHead>Check In</TableHead>
-                      <TableHead>Check Out</TableHead>
-                      <TableHead>Hours</TableHead>
-                      <TableHead>Status</TableHead>
+                      <TableHead className="whitespace-nowrap">Employee</TableHead>
+                      <TableHead className="whitespace-nowrap">Date</TableHead>
+                      <TableHead className="whitespace-nowrap">Check In</TableHead>
+                      <TableHead className="whitespace-nowrap">Check Out</TableHead>
+                      <TableHead className="whitespace-nowrap">Hours</TableHead>
+                      <TableHead className="whitespace-nowrap">Status</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
                     <TableRow>
-                      <TableCell>Admin User</TableCell>
-                      <TableCell>Jan 22, 2024</TableCell>
-                      <TableCell>08:30 AM</TableCell>
-                      <TableCell>05:00 PM</TableCell>
-                      <TableCell>8.5h</TableCell>
+                      <TableCell className="text-sm">Admin User</TableCell>
+                      <TableCell className="text-sm whitespace-nowrap">Jan 22, 2024</TableCell>
+                      <TableCell className="text-sm">08:30 AM</TableCell>
+                      <TableCell className="text-sm">05:00 PM</TableCell>
+                      <TableCell className="text-sm">8.5h</TableCell>
                       <TableCell>
-                        <Badge className="bg-success">Present</Badge>
+                        <Badge className="bg-success text-xs">Present</Badge>
                       </TableCell>
                     </TableRow>
                     <TableRow>
-                      <TableCell>Finance Officer</TableCell>
-                      <TableCell>Jan 22, 2024</TableCell>
-                      <TableCell>09:15 AM</TableCell>
-                      <TableCell>05:30 PM</TableCell>
-                      <TableCell>8.25h</TableCell>
+                      <TableCell className="text-sm">Finance Officer</TableCell>
+                      <TableCell className="text-sm whitespace-nowrap">Jan 22, 2024</TableCell>
+                      <TableCell className="text-sm">09:15 AM</TableCell>
+                      <TableCell className="text-sm">05:30 PM</TableCell>
+                      <TableCell className="text-sm">8.25h</TableCell>
                       <TableCell>
-                        <Badge variant="outline" className="text-warning">Late</Badge>
+                        <Badge variant="outline" className="text-warning text-xs">Late</Badge>
                       </TableCell>
                     </TableRow>
                   </TableBody>
@@ -250,50 +254,50 @@ export default function HumanResources() {
           </Card>
         </TabsContent>
 
-        <TabsContent value="leaves" className="mt-6">
+        <TabsContent value="leaves" className="mt-4 sm:mt-6">
           <Card>
             <CardHeader>
-              <CardTitle>Leave Requests</CardTitle>
-              <CardDescription>Pending and approved leave applications</CardDescription>
+              <CardTitle className="text-lg sm:text-xl">Leave Requests</CardTitle>
+              <CardDescription className="text-xs sm:text-sm">Pending and approved leave applications</CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="rounded-md border">
+              <div className="rounded-md border overflow-x-auto">
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>Employee</TableHead>
-                      <TableHead>Type</TableHead>
-                      <TableHead>Start Date</TableHead>
-                      <TableHead>End Date</TableHead>
-                      <TableHead>Days</TableHead>
-                      <TableHead>Status</TableHead>
-                      <TableHead>Actions</TableHead>
+                      <TableHead className="whitespace-nowrap">Employee</TableHead>
+                      <TableHead className="whitespace-nowrap">Type</TableHead>
+                      <TableHead className="whitespace-nowrap">Start Date</TableHead>
+                      <TableHead className="whitespace-nowrap">End Date</TableHead>
+                      <TableHead className="whitespace-nowrap">Days</TableHead>
+                      <TableHead className="whitespace-nowrap">Status</TableHead>
+                      <TableHead className="whitespace-nowrap">Actions</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
                     {leaves.map((leave) => (
                       <TableRow key={leave.id}>
-                        <TableCell>{leave.employeeName}</TableCell>
-                        <TableCell className="capitalize">{leave.type}</TableCell>
-                        <TableCell>{new Date(leave.startDate).toLocaleDateString()}</TableCell>
-                        <TableCell>{new Date(leave.endDate).toLocaleDateString()}</TableCell>
-                        <TableCell>{leave.days} days</TableCell>
+                        <TableCell className="text-sm">{leave.employeeName}</TableCell>
+                        <TableCell className="capitalize text-sm">{leave.type}</TableCell>
+                        <TableCell className="text-sm whitespace-nowrap">{new Date(leave.start_date).toLocaleDateString()}</TableCell>
+                        <TableCell className="text-sm whitespace-nowrap">{new Date(leave.end_date).toLocaleDateString()}</TableCell>
+                        <TableCell className="text-sm">{leave.days} days</TableCell>
                         <TableCell>
                           {leave.status === 'approved' ? (
-                            <Badge className="bg-success">Approved</Badge>
+                            <Badge className="bg-success text-xs">Approved</Badge>
                           ) : leave.status === 'rejected' ? (
-                            <Badge variant="destructive">Rejected</Badge>
+                            <Badge variant="destructive" className="text-xs">Rejected</Badge>
                           ) : (
-                            <Badge variant="outline">Pending</Badge>
+                            <Badge variant="outline" className="text-xs">Pending</Badge>
                           )}
                         </TableCell>
                         <TableCell>
                           {leave.status === 'pending' && (
-                            <div className="flex gap-2">
+                            <div className="flex gap-1 sm:gap-2">
                               <Button 
                                 variant="outline" 
                                 size="sm" 
-                                className="h-8"
+                                className="h-7 text-xs"
                                 onClick={() => handleApproveLeave(leave.id)}
                               >
                                 Approve
@@ -301,7 +305,7 @@ export default function HumanResources() {
                               <Button 
                                 variant="outline" 
                                 size="sm" 
-                                className="h-8"
+                                className="h-7 text-xs"
                                 onClick={() => handleRejectLeave(leave.id)}
                               >
                                 Reject
@@ -318,20 +322,20 @@ export default function HumanResources() {
           </Card>
         </TabsContent>
 
-        <TabsContent value="payroll" className="mt-6">
+        <TabsContent value="payroll" className="mt-4 sm:mt-6">
           <Card>
             <CardHeader>
-              <CardTitle>Payroll Overview</CardTitle>
-              <CardDescription>Monthly salary processing</CardDescription>
+              <CardTitle className="text-lg sm:text-xl">Payroll Overview</CardTitle>
+              <CardDescription className="text-xs sm:text-sm">Monthly salary processing</CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="text-center py-12">
-                <Calendar className="h-16 w-16 mx-auto text-muted-foreground mb-4" />
-                <h3 className="text-lg font-semibold mb-2">Payroll Processing</h3>
-                <p className="text-sm text-muted-foreground">
+              <div className="text-center py-8 sm:py-12">
+                <Calendar className="h-12 w-12 sm:h-16 sm:w-16 mx-auto text-muted-foreground mb-4" />
+                <h3 className="text-base sm:text-lg font-semibold mb-2">Payroll Processing</h3>
+                <p className="text-xs sm:text-sm text-muted-foreground">
                   Monthly payroll will be processed on the 25th
                 </p>
-                <Button className="mt-6" onClick={handleProcessPayroll}>Process Payroll</Button>
+                <Button className="mt-6 text-sm" onClick={handleProcessPayroll}>Process Payroll</Button>
               </div>
             </CardContent>
           </Card>
@@ -339,7 +343,7 @@ export default function HumanResources() {
       </Tabs>
 
       <Dialog open={addEmployeeOpen} onOpenChange={setAddEmployeeOpen}>
-        <DialogContent>
+        <DialogContent className="sm:max-w-[425px] max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>Add New Employee</DialogTitle>
             <DialogDescription>Add a new employee to the system</DialogDescription>
@@ -397,7 +401,7 @@ export default function HumanResources() {
       </Dialog>
 
       <Dialog open={viewProfileOpen} onOpenChange={setViewProfileOpen}>
-        <DialogContent>
+        <DialogContent className="sm:max-w-[425px] max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>Employee Profile</DialogTitle>
             <DialogDescription>Complete information for {selectedEmployee?.name}</DialogDescription>
@@ -405,14 +409,14 @@ export default function HumanResources() {
           {selectedEmployee && (
             <div className="space-y-4">
               <div className="flex items-center gap-4 pb-4 border-b">
-                <Avatar className="h-16 w-16">
-                  <AvatarFallback className="text-lg">
-                    {selectedEmployee.name.split(' ').map(n => n[0]).join('')}
+                <Avatar className="h-14 w-14 sm:h-16 sm:w-16">
+                  <AvatarFallback className="text-base sm:text-lg">
+                    {selectedEmployee.name?.split(' ').map(n => n[0]).join('') || 'NA'}
                   </AvatarFallback>
                 </Avatar>
                 <div>
-                  <h3 className="font-semibold text-lg">{selectedEmployee.name}</h3>
-                  <p className="text-sm text-muted-foreground">{selectedEmployee.position}</p>
+                  <h3 className="font-semibold text-base sm:text-lg">{selectedEmployee.name}</h3>
+                  <p className="text-xs sm:text-sm text-muted-foreground">{selectedEmployee.position}</p>
                 </div>
               </div>
               <div>
@@ -421,7 +425,7 @@ export default function HumanResources() {
               </div>
               <div>
                 <p className="text-sm font-medium">Department</p>
-                <p className="text-sm text-muted-foreground">{selectedEmployee.department}</p>
+                <p className="text-sm text-muted-foreground">{selectedEmployee.departmentName}</p>
               </div>
               <div>
                 <p className="text-sm font-medium">Email</p>
@@ -432,14 +436,12 @@ export default function HumanResources() {
                 <p className="text-sm text-muted-foreground">{selectedEmployee.phone}</p>
               </div>
               <div>
-                <p className="text-sm font-medium">Join Date</p>
-                <p className="text-sm text-muted-foreground">{new Date(selectedEmployee.joinDate).toLocaleDateString()}</p>
+                <p className="text-sm font-medium">Hire Date</p>
+                <p className="text-sm text-muted-foreground">{new Date(selectedEmployee.hire_date).toLocaleDateString()}</p>
               </div>
               <div>
-                <p className="text-sm font-medium">Status</p>
-                <Badge variant={selectedEmployee.status === 'active' ? 'default' : 'outline'}>
-                  {selectedEmployee.status}
-                </Badge>
+                <p className="text-sm font-medium">Salary</p>
+                <p className="text-sm text-muted-foreground">${selectedEmployee.salary.toLocaleString()}</p>
               </div>
             </div>
           )}

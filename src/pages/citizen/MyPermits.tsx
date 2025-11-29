@@ -183,16 +183,16 @@ export default function MyPermits() {
                         <div className="flex items-center gap-2">
                           <Calendar className="h-4 w-4 text-muted-foreground" />
                           <div>
-                            <p className="text-xs text-muted-foreground">Submitted</p>
-                            <p className="font-medium">{new Date(permit.submittedDate).toLocaleDateString()}</p>
+                            <p className="text-xs text-muted-foreground">Issue Date</p>
+                            <p className="font-medium">{new Date(permit.issue_date).toLocaleDateString()}</p>
                           </div>
                         </div>
-                        {permit.expiryDate && (
+                        {permit.expiry_date && (
                           <div className="flex items-center gap-2">
                             <Calendar className="h-4 w-4 text-muted-foreground" />
                             <div>
                               <p className="text-xs text-muted-foreground">Expires</p>
-                              <p className="font-medium">{new Date(permit.expiryDate).toLocaleDateString()}</p>
+                              <p className="font-medium">{new Date(permit.expiry_date).toLocaleDateString()}</p>
                             </div>
                           </div>
                         )}
@@ -205,11 +205,11 @@ export default function MyPermits() {
                         </div>
                       </div>
 
-                      {permit.documents.length > 0 && (
+                      {permit.related_documents && permit.related_documents.length > 0 && (
                         <div>
                           <p className="text-sm font-medium mb-2">Documents:</p>
                           <div className="flex flex-wrap gap-2">
-                            {permit.documents.map((doc, idx) => (
+                            {permit.related_documents.map((doc, idx) => (
                               <Badge key={idx} variant="secondary" className="gap-1">
                                 <FileText className="h-3 w-3" />
                                 {doc}

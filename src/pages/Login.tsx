@@ -172,7 +172,17 @@ export default function Login() {
               <TabsContent value="signup">
                 <form onSubmit={handleSignup} className="space-y-4">
                   <div className="space-y-2">
-                    <Label htmlFor="signup-email">Email</Label>
+                    <Label htmlFor="signup-name">Full Name *</Label>
+                    <Input
+                      id="signup-name"
+                      type="text"
+                      placeholder="John Doe"
+                      required
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="signup-email">Email *</Label>
                     <Input
                       id="signup-email"
                       type="email"
@@ -182,9 +192,44 @@ export default function Login() {
                       required
                     />
                   </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="national-id">National ID</Label>
+                    <Input
+                      id="national-id"
+                      type="text"
+                      placeholder="Enter national ID"
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="address">Address</Label>
+                    <Input
+                      id="address"
+                      type="text"
+                      placeholder="Enter your address"
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="contact">Contact Number</Label>
+                    <Input
+                      id="contact"
+                      type="tel"
+                      placeholder="+1 234-567-8900"
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="date-of-birth">Date of Birth</Label>
+                    <Input
+                      id="date-of-birth"
+                      type="date"
+                    />
+                  </div>
                   
                   <div className="space-y-2">
-                    <Label htmlFor="signup-password">Password</Label>
+                    <Label htmlFor="signup-password">Password *</Label>
                     <Input
                       id="signup-password"
                       type="password"
@@ -196,7 +241,7 @@ export default function Login() {
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="confirm-password">Confirm Password</Label>
+                    <Label htmlFor="confirm-password">Confirm Password *</Label>
                     <Input
                       id="confirm-password"
                       type="password"
