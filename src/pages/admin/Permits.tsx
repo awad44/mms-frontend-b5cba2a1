@@ -236,13 +236,13 @@ export default function Permits() {
                 </Badge>
               </div>
               <div>
-                <p className="text-sm font-medium">Submitted Date</p>
-                <p className="text-sm text-muted-foreground">{new Date(selectedPermit.submittedDate).toLocaleDateString()}</p>
+                <p className="text-sm font-medium">Issue Date</p>
+                <p className="text-sm text-muted-foreground">{new Date(selectedPermit.issue_date).toLocaleDateString()}</p>
               </div>
-              {selectedPermit.expiryDate && (
+              {selectedPermit.expiry_date && (
                 <div>
                   <p className="text-sm font-medium">Expiry Date</p>
-                  <p className="text-sm text-muted-foreground">{new Date(selectedPermit.expiryDate).toLocaleDateString()}</p>
+                  <p className="text-sm text-muted-foreground">{new Date(selectedPermit.expiry_date).toLocaleDateString()}</p>
                 </div>
               )}
               <div>

@@ -55,7 +55,6 @@ export default function CitizenServices() {
   const [rejectDialogOpen, setRejectDialogOpen] = useState(false);
   const [actionRequest, setActionRequest] = useState<CitizenRequest | null>(null);
   
-  // New request form state
   const [newRequest, setNewRequest] = useState({
     citizenName: '',
     type: '' as RequestType,
@@ -64,7 +63,7 @@ export default function CitizenServices() {
 
   const filteredRequests = requests.filter(request => {
     const matchesSearch = 
-      request.citizenName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (request.citizenName?.toLowerCase() || '').includes(searchTerm.toLowerCase()) ||
       request.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
       request.type.toLowerCase().includes(searchTerm.toLowerCase());
     
@@ -93,7 +92,7 @@ export default function CitizenServices() {
     
     setRequests(prev => prev.map(req => 
       req.id === actionRequest.id 
-        ? { ...req, status: 'approved' as RequestStatus, lastUpdated: new Date().toISOString() }
+        ? { ...req, status: 'approved' as RequestStatus, completion_date: new Date().toISOString() }
         : req
     ));
     
@@ -111,7 +110,7 @@ export default function CitizenServices() {
     
     setRequests(prev => prev.map(req => 
       req.id === actionRequest.id 
-        ? { ...req, status: 'rejected' as RequestStatus, lastUpdated: new Date().toISOString() }
+        ? { ...req, status: 'rejected' as RequestStatus, completion_date: new Date().toISOString() }
         : req
     ));
     
@@ -137,12 +136,11 @@ export default function CitizenServices() {
 
     const request: CitizenRequest = {
       id: `REQ${String(requests.length + 1).padStart(3, '0')}`,
-      citizenId: `CIT${Math.floor(Math.random() * 1000).toString().padStart(3, '0')}`,
+      citizen_id: `CIT${Math.floor(Math.random() * 1000).toString().padStart(3, '0')}`,
       citizenName: newRequest.citizenName,
       type: newRequest.type,
       status: 'pending',
-      submittedDate: new Date().toISOString(),
-      lastUpdated: new Date().toISOString(),
+      submission_date: new Date().toISOString(),
       description: newRequest.description,
     };
 
@@ -173,35 +171,35 @@ export default function CitizenServices() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6 p-4 sm:p-0">
       <div>
-        <h1 className="text-3xl font-bold text-foreground">Citizen Services</h1>
-        <p className="text-muted-foreground mt-1">Manage citizen requests and applications</p>
+        <h1 className="text-2xl sm:text-3xl font-bold text-foreground">Citizen Services</h1>
+        <p className="text-sm sm:text-base text-muted-foreground mt-1">Manage citizen requests and applications</p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
         <Card>
-          <CardContent className="p-6">
-            <div className="text-2xl font-bold">186</div>
-            <div className="text-sm text-muted-foreground">Total Requests</div>
+          <CardContent className="p-4 sm:p-6">
+            <div className="text-xl sm:text-2xl font-bold">186</div>
+            <div className="text-xs sm:text-sm text-muted-foreground">Total Requests</div>
           </CardContent>
         </Card>
         <Card>
-          <CardContent className="p-6">
-            <div className="text-2xl font-bold text-warning">45</div>
-            <div className="text-sm text-muted-foreground">Pending</div>
+          <CardContent className="p-4 sm:p-6">
+            <div className="text-xl sm:text-2xl font-bold text-warning">45</div>
+            <div className="text-xs sm:text-sm text-muted-foreground">Pending</div>
           </CardContent>
         </Card>
         <Card>
-          <CardContent className="p-6">
-            <div className="text-2xl font-bold text-accent">32</div>
-            <div className="text-sm text-muted-foreground">In Review</div>
+          <CardContent className="p-4 sm:p-6">
+            <div className="text-xl sm:text-2xl font-bold text-accent">32</div>
+            <div className="text-xs sm:text-sm text-muted-foreground">In Review</div>
           </CardContent>
         </Card>
         <Card>
-          <CardContent className="p-6">
-            <div className="text-2xl font-bold text-success">109</div>
-            <div className="text-sm text-muted-foreground">Completed</div>
+          <CardContent className="p-4 sm:p-6">
+            <div className="text-xl sm:text-2xl font-bold text-success">109</div>
+            <div className="text-xs sm:text-sm text-muted-foreground">Completed</div>
           </CardContent>
         </Card>
       </div>
@@ -210,25 +208,25 @@ export default function CitizenServices() {
         <CardHeader>
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
             <div>
-              <CardTitle>All Requests</CardTitle>
-              <CardDescription>View and manage citizen service requests</CardDescription>
+              <CardTitle className="text-lg sm:text-xl">All Requests</CardTitle>
+              <CardDescription className="text-xs sm:text-sm">View and manage citizen service requests</CardDescription>
             </div>
-            <Button onClick={() => setCreateDialogOpen(true)}>Create New Request</Button>
+            <Button onClick={() => setCreateDialogOpen(true)} className="w-full sm:w-auto text-sm">Create New Request</Button>
           </div>
         </CardHeader>
         <CardContent>
-          <div className="flex flex-col sm:flex-row gap-4 mb-6">
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mb-4 sm:mb-6">
             <div className="relative flex-1">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
               <Input
                 placeholder="Search requests..."
-                className="pl-10"
+                className="pl-10 text-sm"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
             </div>
             <Select value={statusFilter} onValueChange={(value: any) => setStatusFilter(value)}>
-              <SelectTrigger className="w-full sm:w-[180px]">
+              <SelectTrigger className="w-full sm:w-[180px] text-sm">
                 <Filter className="h-4 w-4 mr-2" />
                 <SelectValue placeholder="Filter by status" />
               </SelectTrigger>
@@ -243,52 +241,53 @@ export default function CitizenServices() {
             </Select>
           </div>
 
-          <div className="rounded-md border">
+          <div className="rounded-md border overflow-x-auto">
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>Request ID</TableHead>
-                  <TableHead>Citizen</TableHead>
-                  <TableHead>Type</TableHead>
-                  <TableHead>Status</TableHead>
-                  <TableHead>Submitted</TableHead>
-                  <TableHead>Actions</TableHead>
+                  <TableHead className="whitespace-nowrap">Request ID</TableHead>
+                  <TableHead className="whitespace-nowrap">Citizen</TableHead>
+                  <TableHead className="whitespace-nowrap">Type</TableHead>
+                  <TableHead className="whitespace-nowrap">Status</TableHead>
+                  <TableHead className="whitespace-nowrap">Submitted</TableHead>
+                  <TableHead className="whitespace-nowrap">Actions</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {filteredRequests.map((request) => (
                   <TableRow key={request.id}>
-                    <TableCell className="font-medium">{request.id}</TableCell>
-                    <TableCell>{request.citizenName}</TableCell>
-                    <TableCell className="capitalize">{request.type.replace('_', ' ')}</TableCell>
+                    <TableCell className="font-medium text-sm">{request.id}</TableCell>
+                    <TableCell className="text-sm">{request.citizenName}</TableCell>
+                    <TableCell className="capitalize text-sm whitespace-nowrap">{request.type.replace('_', ' ')}</TableCell>
                     <TableCell>{getStatusBadge(request.status)}</TableCell>
-                    <TableCell>{new Date(request.submittedDate).toLocaleDateString()}</TableCell>
+                    <TableCell className="text-sm whitespace-nowrap">{new Date(request.submission_date).toLocaleDateString()}</TableCell>
                     <TableCell>
-                      <div className="flex gap-2">
+                      <div className="flex gap-1 sm:gap-2">
                         <Button 
                           variant="ghost" 
                           size="icon"
+                          className="h-8 w-8"
                           onClick={() => handleViewRequest(request)}
                         >
-                          <Eye className="h-4 w-4" />
+                          <Eye className="h-3 w-3 sm:h-4 sm:w-4" />
                         </Button>
                         {request.status === 'pending' && (
                           <>
                             <Button 
                               variant="ghost" 
-                              size="icon" 
-                              className="text-success hover:text-success hover:bg-success/10"
+                              size="icon"
+                              className="h-8 w-8 text-success hover:text-success hover:bg-success/10"
                               onClick={() => handleApproveRequest(request)}
                             >
-                              <CheckCircle className="h-4 w-4" />
+                              <CheckCircle className="h-3 w-3 sm:h-4 sm:w-4" />
                             </Button>
                             <Button 
                               variant="ghost" 
-                              size="icon" 
-                              className="text-destructive hover:text-destructive hover:bg-destructive/10"
+                              size="icon"
+                              className="h-8 w-8 text-destructive hover:text-destructive hover:bg-destructive/10"
                               onClick={() => handleRejectRequest(request)}
                             >
-                              <XCircle className="h-4 w-4" />
+                              <XCircle className="h-3 w-3 sm:h-4 sm:w-4" />
                             </Button>
                           </>
                         )}
@@ -304,7 +303,7 @@ export default function CitizenServices() {
 
       {/* View Request Dialog */}
       <Dialog open={viewDialogOpen} onOpenChange={setViewDialogOpen}>
-        <DialogContent className="sm:max-w-[600px]">
+        <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>Request Details</DialogTitle>
             <DialogDescription>
@@ -313,12 +312,12 @@ export default function CitizenServices() {
           </DialogHeader>
           {selectedRequest && (
             <div className="space-y-4">
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label className="text-muted-foreground">Request ID</Label>
                   <div className="flex items-center gap-2">
                     <FileText className="h-4 w-4 text-muted-foreground" />
-                    <span className="font-medium">{selectedRequest.id}</span>
+                    <span className="font-medium text-sm">{selectedRequest.id}</span>
                   </div>
                 </div>
                 <div className="space-y-2">
@@ -331,13 +330,13 @@ export default function CitizenServices() {
                 <Label className="text-muted-foreground">Citizen Name</Label>
                 <div className="flex items-center gap-2">
                   <User className="h-4 w-4 text-muted-foreground" />
-                  <span className="font-medium">{selectedRequest.citizenName}</span>
+                  <span className="font-medium text-sm">{selectedRequest.citizenName}</span>
                 </div>
               </div>
 
               <div className="space-y-2">
                 <Label className="text-muted-foreground">Request Type</Label>
-                <div className="font-medium capitalize">{selectedRequest.type.replace('_', ' ')}</div>
+                <div className="font-medium capitalize text-sm">{selectedRequest.type.replace('_', ' ')}</div>
               </div>
 
               <div className="space-y-2">
@@ -345,27 +344,29 @@ export default function CitizenServices() {
                 <div className="text-sm">{selectedRequest.description}</div>
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label className="text-muted-foreground">Submitted Date</Label>
+                  <Label className="text-muted-foreground">Submission Date</Label>
                   <div className="flex items-center gap-2">
                     <Calendar className="h-4 w-4 text-muted-foreground" />
-                    <span className="text-sm">{new Date(selectedRequest.submittedDate).toLocaleDateString()}</span>
+                    <span className="text-sm">{new Date(selectedRequest.submission_date).toLocaleDateString()}</span>
                   </div>
                 </div>
-                <div className="space-y-2">
-                  <Label className="text-muted-foreground">Last Updated</Label>
-                  <div className="flex items-center gap-2">
-                    <Calendar className="h-4 w-4 text-muted-foreground" />
-                    <span className="text-sm">{new Date(selectedRequest.lastUpdated).toLocaleDateString()}</span>
+                {selectedRequest.completion_date && (
+                  <div className="space-y-2">
+                    <Label className="text-muted-foreground">Completion Date</Label>
+                    <div className="flex items-center gap-2">
+                      <Calendar className="h-4 w-4 text-muted-foreground" />
+                      <span className="text-sm">{new Date(selectedRequest.completion_date).toLocaleDateString()}</span>
+                    </div>
                   </div>
-                </div>
+                )}
               </div>
 
               {selectedRequest.assignedTo && (
                 <div className="space-y-2">
                   <Label className="text-muted-foreground">Assigned To</Label>
-                  <div className="font-medium">{selectedRequest.assignedTo}</div>
+                  <div className="font-medium text-sm">{selectedRequest.assignedTo}</div>
                 </div>
               )}
             </div>
@@ -378,7 +379,7 @@ export default function CitizenServices() {
 
       {/* Create Request Dialog */}
       <Dialog open={createDialogOpen} onOpenChange={setCreateDialogOpen}>
-        <DialogContent className="sm:max-w-[525px]">
+        <DialogContent className="sm:max-w-[525px] max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>Create New Request</DialogTitle>
             <DialogDescription>
@@ -426,9 +427,9 @@ export default function CitizenServices() {
               />
             </div>
           </div>
-          <DialogFooter>
-            <Button variant="outline" onClick={() => setCreateDialogOpen(false)}>Cancel</Button>
-            <Button onClick={handleCreateRequest}>Create Request</Button>
+          <DialogFooter className="flex-col sm:flex-row gap-2">
+            <Button variant="outline" onClick={() => setCreateDialogOpen(false)} className="w-full sm:w-auto">Cancel</Button>
+            <Button onClick={handleCreateRequest} className="w-full sm:w-auto">Create Request</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
@@ -457,7 +458,7 @@ export default function CitizenServices() {
             <AlertDialogTitle>Reject Request</AlertDialogTitle>
             <AlertDialogDescription>
               Are you sure you want to reject request {actionRequest?.id} for {actionRequest?.citizenName}?
-              This action will update the request status to rejected.
+              This action cannot be undone.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>

@@ -171,7 +171,7 @@ export default function Projects() {
                         <div className="flex items-center gap-2">
                           <Clock className="h-4 w-4 text-muted-foreground" />
                           <span>
-                            {new Date(project.startDate).toLocaleDateString()} - {new Date(project.endDate).toLocaleDateString()}
+                            {new Date(project.start_date).toLocaleDateString()} - {new Date(project.end_date).toLocaleDateString()}
                           </span>
                         </div>
                         <div className="flex items-center gap-2">
@@ -227,8 +227,8 @@ export default function Projects() {
                             <h4 className="font-medium">{task.title}</h4>
                             <p className="text-sm text-muted-foreground mt-1">{task.description}</p>
                             <div className="flex gap-4 mt-3 text-xs text-muted-foreground">
-                              <span>Assignee: {task.assignee}</span>
-                              <span>Due: {new Date(task.dueDate).toLocaleDateString()}</span>
+                              <span>Assignee: {task.assigneeName}</span>
+                              <span>Due: {new Date(task.end_date).toLocaleDateString()}</span>
                             </div>
                           </div>
                           <Badge
@@ -333,7 +333,7 @@ export default function Projects() {
               <div>
                 <p className="text-sm font-medium">Timeline</p>
                 <p className="text-sm text-muted-foreground">
-                  {new Date(selectedProject.startDate).toLocaleDateString()} - {new Date(selectedProject.endDate).toLocaleDateString()}
+                  {new Date(selectedProject.start_date).toLocaleDateString()} - {new Date(selectedProject.end_date).toLocaleDateString()}
                 </p>
               </div>
               <div>
@@ -359,8 +359,8 @@ export default function Projects() {
             <DialogDescription>Tasks for {selectedProject?.name}</DialogDescription>
           </DialogHeader>
           <div className="space-y-3 max-h-[60vh] overflow-y-auto">
-            {mockTasks.filter(t => t.projectId === selectedProject?.id).length > 0 ? (
-              mockTasks.filter(t => t.projectId === selectedProject?.id).map((task) => (
+            {mockTasks.filter(t => t.project_id === selectedProject?.id).length > 0 ? (
+              mockTasks.filter(t => t.project_id === selectedProject?.id).map((task) => (
                 <Card key={task.id}>
                   <CardContent className="p-4">
                     <div className="flex items-start justify-between">
@@ -368,8 +368,8 @@ export default function Projects() {
                         <h4 className="font-medium">{task.title}</h4>
                         <p className="text-sm text-muted-foreground mt-1">{task.description}</p>
                         <div className="flex gap-4 mt-3 text-xs text-muted-foreground">
-                          <span>Assignee: {task.assignee}</span>
-                          <span>Due: {new Date(task.dueDate).toLocaleDateString()}</span>
+                          <span>Assignee: {task.assigneeName}</span>
+                          <span>Due: {new Date(task.end_date).toLocaleDateString()}</span>
                           <Badge variant="outline" className="ml-2">{task.status.replace('_', ' ')}</Badge>
                         </div>
                       </div>

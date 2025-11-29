@@ -59,22 +59,22 @@ export default function Finance() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6 p-4 sm:p-0">
       <div>
-        <h1 className="text-3xl font-bold text-foreground">Finance & Billing</h1>
-        <p className="text-muted-foreground mt-1">Revenue management and payment tracking</p>
+        <h1 className="text-2xl sm:text-3xl font-bold text-foreground">Finance & Billing</h1>
+        <p className="text-sm sm:text-base text-muted-foreground mt-1">Revenue management and payment tracking</p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
         <Card>
-          <CardContent className="p-6">
+          <CardContent className="p-4 sm:p-6">
             <div className="flex items-center justify-between">
               <div>
-                <div className="text-2xl font-bold">$890K</div>
-                <div className="text-sm text-muted-foreground">Total Revenue</div>
+                <div className="text-xl sm:text-2xl font-bold">$890K</div>
+                <div className="text-xs sm:text-sm text-muted-foreground">Total Revenue</div>
               </div>
-              <div className="h-12 w-12 rounded-full bg-success/10 flex items-center justify-center">
-                <DollarSign className="h-6 w-6 text-success" />
+              <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-full bg-success/10 flex items-center justify-center">
+                <DollarSign className="h-5 w-5 sm:h-6 sm:w-6 text-success" />
               </div>
             </div>
             <div className="flex items-center gap-1 mt-2 text-xs text-success">
@@ -85,31 +85,29 @@ export default function Finance() {
         </Card>
 
         <Card>
-          <CardContent className="p-6">
+          <CardContent className="p-4 sm:p-6">
             <div className="flex items-center justify-between">
               <div>
-                <div className="text-2xl font-bold">$745K</div>
-                <div className="text-sm text-muted-foreground">Collected</div>
+                <div className="text-xl sm:text-2xl font-bold">$745K</div>
+                <div className="text-xs sm:text-sm text-muted-foreground">Collected</div>
               </div>
-              <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center">
-                <TrendingUp className="h-6 w-6 text-primary" />
+              <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-full bg-primary/10 flex items-center justify-center">
+                <TrendingUp className="h-5 w-5 sm:h-6 sm:w-6 text-primary" />
               </div>
             </div>
-            <div className="flex items-center gap-1 mt-2 text-xs text-primary">
-              <span>83.7% collection rate</span>
-            </div>
+            <div className="text-xs text-primary mt-2">83.7% collection rate</div>
           </CardContent>
         </Card>
 
         <Card>
-          <CardContent className="p-6">
+          <CardContent className="p-4 sm:p-6">
             <div className="flex items-center justify-between">
               <div>
-                <div className="text-2xl font-bold">$120K</div>
-                <div className="text-sm text-muted-foreground">Pending</div>
+                <div className="text-xl sm:text-2xl font-bold">$120K</div>
+                <div className="text-xs sm:text-sm text-muted-foreground">Pending</div>
               </div>
-              <div className="h-12 w-12 rounded-full bg-warning/10 flex items-center justify-center">
-                <Clock className="h-6 w-6 text-warning" />
+              <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-full bg-warning/10 flex items-center justify-center">
+                <Clock className="h-5 w-5 sm:h-6 sm:w-6 text-warning" />
               </div>
             </div>
             <div className="text-xs text-muted-foreground mt-2">Due within 30 days</div>
@@ -117,14 +115,14 @@ export default function Finance() {
         </Card>
 
         <Card>
-          <CardContent className="p-6">
+          <CardContent className="p-4 sm:p-6">
             <div className="flex items-center justify-between">
               <div>
-                <div className="text-2xl font-bold">$25K</div>
-                <div className="text-sm text-muted-foreground">Overdue</div>
+                <div className="text-xl sm:text-2xl font-bold">$25K</div>
+                <div className="text-xs sm:text-sm text-muted-foreground">Overdue</div>
               </div>
-              <div className="h-12 w-12 rounded-full bg-destructive/10 flex items-center justify-center">
-                <AlertCircle className="h-6 w-6 text-destructive" />
+              <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-full bg-destructive/10 flex items-center justify-center">
+                <AlertCircle className="h-5 w-5 sm:h-6 sm:w-6 text-destructive" />
               </div>
             </div>
             <div className="text-xs text-muted-foreground mt-2">18 accounts</div>
@@ -132,14 +130,14 @@ export default function Finance() {
         </Card>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
         <Card>
           <CardHeader>
-            <CardTitle>Revenue Distribution</CardTitle>
-            <CardDescription>Income by category</CardDescription>
+            <CardTitle className="text-lg sm:text-xl">Revenue Distribution</CardTitle>
+            <CardDescription className="text-xs sm:text-sm">Income by category</CardDescription>
           </CardHeader>
           <CardContent>
-            <ResponsiveContainer width="100%" height={300}>
+            <ResponsiveContainer width="100%" height={250}>
               <PieChart>
                 <Pie
                   data={revenueData}
@@ -147,7 +145,7 @@ export default function Finance() {
                   cy="50%"
                   labelLine={false}
                   label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
-                  outerRadius={100}
+                  outerRadius={80}
                   fill="#8884d8"
                   dataKey="value"
                 >
@@ -163,17 +161,17 @@ export default function Finance() {
 
         <Card>
           <CardHeader>
-            <CardTitle>Monthly Collection</CardTitle>
-            <CardDescription>Collected vs Target</CardDescription>
+            <CardTitle className="text-lg sm:text-xl">Monthly Collection</CardTitle>
+            <CardDescription className="text-xs sm:text-sm">Collected vs Target</CardDescription>
           </CardHeader>
           <CardContent>
-            <ResponsiveContainer width="100%" height={300}>
+            <ResponsiveContainer width="100%" height={250}>
               <BarChart data={monthlyRevenue}>
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="month" />
-                <YAxis />
+                <XAxis dataKey="month" style={{ fontSize: '12px' }} />
+                <YAxis style={{ fontSize: '12px' }} />
                 <Tooltip />
-                <Legend />
+                <Legend wrapperStyle={{ fontSize: '12px' }} />
                 <Bar dataKey="collected" fill="hsl(var(--success))" name="Collected" />
                 <Bar dataKey="target" fill="hsl(var(--primary))" name="Target" />
               </BarChart>
@@ -186,10 +184,10 @@ export default function Finance() {
         <CardHeader>
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
             <div>
-              <CardTitle>Payment Transactions</CardTitle>
-              <CardDescription>Recent payment activity</CardDescription>
+              <CardTitle className="text-lg sm:text-xl">Payment Transactions</CardTitle>
+              <CardDescription className="text-xs sm:text-sm">Recent payment activity</CardDescription>
             </div>
-            <Button onClick={handleExportReport}>
+            <Button onClick={handleExportReport} className="w-full sm:w-auto text-sm">
               <Download className="h-4 w-4 mr-2" />
               Export Report
             </Button>
@@ -197,42 +195,42 @@ export default function Finance() {
         </CardHeader>
         <CardContent>
           <Tabs value={activeTab} onValueChange={setActiveTab}>
-            <TabsList>
-              <TabsTrigger value="all">All</TabsTrigger>
-              <TabsTrigger value="paid">Paid</TabsTrigger>
-              <TabsTrigger value="pending">Pending</TabsTrigger>
-              <TabsTrigger value="overdue">Overdue</TabsTrigger>
+            <TabsList className="grid w-full grid-cols-4 mb-4">
+              <TabsTrigger value="all" className="text-xs sm:text-sm">All</TabsTrigger>
+              <TabsTrigger value="paid" className="text-xs sm:text-sm">Paid</TabsTrigger>
+              <TabsTrigger value="pending" className="text-xs sm:text-sm">Pending</TabsTrigger>
+              <TabsTrigger value="overdue" className="text-xs sm:text-sm">Overdue</TabsTrigger>
             </TabsList>
-            <TabsContent value={activeTab} className="mt-4">
-              <div className="rounded-md border">
+            <TabsContent value={activeTab}>
+              <div className="rounded-md border overflow-x-auto">
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>Payment ID</TableHead>
-                      <TableHead>Citizen</TableHead>
-                      <TableHead>Type</TableHead>
-                      <TableHead>Amount</TableHead>
-                      <TableHead>Due Date</TableHead>
-                      <TableHead>Status</TableHead>
-                      <TableHead>Actions</TableHead>
+                      <TableHead className="whitespace-nowrap">Payment ID</TableHead>
+                      <TableHead className="whitespace-nowrap">Citizen</TableHead>
+                      <TableHead className="whitespace-nowrap">Type</TableHead>
+                      <TableHead className="whitespace-nowrap">Amount</TableHead>
+                      <TableHead className="whitespace-nowrap">Date</TableHead>
+                      <TableHead className="whitespace-nowrap">Status</TableHead>
+                      <TableHead className="whitespace-nowrap">Actions</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
                     {getFilteredPayments().length > 0 ? (
                       getFilteredPayments().map((payment) => (
                         <TableRow key={payment.id}>
-                          <TableCell className="font-medium">{payment.id}</TableCell>
-                          <TableCell>{payment.citizenName}</TableCell>
-                          <TableCell className="capitalize">{payment.type.replace('_', ' ')}</TableCell>
-                          <TableCell>${payment.amount.toLocaleString()}</TableCell>
-                          <TableCell>{new Date(payment.dueDate).toLocaleDateString()}</TableCell>
+                          <TableCell className="font-medium text-sm">{payment.id}</TableCell>
+                          <TableCell className="text-sm">{payment.citizenName}</TableCell>
+                          <TableCell className="capitalize text-sm whitespace-nowrap">{payment.payment_type.replace('_', ' ')}</TableCell>
+                          <TableCell className="text-sm">${payment.amount.toLocaleString()}</TableCell>
+                          <TableCell className="text-sm whitespace-nowrap">{new Date(payment.date).toLocaleDateString()}</TableCell>
                           <TableCell>
-                            {payment.status === 'paid' && <Badge className="bg-success">Paid</Badge>}
-                            {payment.status === 'pending' && <Badge variant="outline">Pending</Badge>}
-                            {payment.status === 'overdue' && <Badge variant="destructive">Overdue</Badge>}
+                            {payment.status === 'paid' && <Badge className="bg-success text-xs">Paid</Badge>}
+                            {payment.status === 'pending' && <Badge variant="outline" className="text-xs">Pending</Badge>}
+                            {payment.status === 'overdue' && <Badge variant="destructive" className="text-xs">Overdue</Badge>}
                           </TableCell>
                           <TableCell>
-                            <Button variant="outline" size="sm" onClick={() => handleViewReceipt(payment)}>
+                            <Button variant="outline" size="sm" onClick={() => handleViewReceipt(payment)} className="text-xs h-8">
                               View Receipt
                             </Button>
                           </TableCell>
@@ -240,7 +238,7 @@ export default function Finance() {
                       ))
                     ) : (
                       <TableRow>
-                        <TableCell colSpan={7} className="text-center py-8 text-muted-foreground">
+                        <TableCell colSpan={7} className="text-center py-8 text-muted-foreground text-sm">
                           No {activeTab === 'all' ? '' : activeTab} payments found
                         </TableCell>
                       </TableRow>
@@ -254,7 +252,7 @@ export default function Finance() {
       </Card>
 
       <Dialog open={receiptDialogOpen} onOpenChange={setReceiptDialogOpen}>
-        <DialogContent>
+        <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
             <DialogTitle>Payment Receipt</DialogTitle>
             <DialogDescription>Receipt for {selectedPayment?.id}</DialogDescription>
@@ -271,15 +269,15 @@ export default function Finance() {
               </div>
               <div>
                 <p className="text-sm font-medium">Type</p>
-                <p className="text-sm text-muted-foreground capitalize">{selectedPayment.type.replace('_', ' ')}</p>
+                <p className="text-sm text-muted-foreground capitalize">{selectedPayment.payment_type.replace('_', ' ')}</p>
               </div>
               <div>
                 <p className="text-sm font-medium">Amount</p>
                 <p className="text-lg font-bold">${selectedPayment.amount.toLocaleString()}</p>
               </div>
               <div>
-                <p className="text-sm font-medium">Due Date</p>
-                <p className="text-sm text-muted-foreground">{new Date(selectedPayment.dueDate).toLocaleDateString()}</p>
+                <p className="text-sm font-medium">Date</p>
+                <p className="text-sm text-muted-foreground">{new Date(selectedPayment.date).toLocaleDateString()}</p>
               </div>
               <div>
                 <p className="text-sm font-medium">Status</p>

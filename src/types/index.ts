@@ -2,10 +2,13 @@ export type UserRole = 'admin' | 'finance' | 'project_manager' | 'hr_manager' | 
 
 export interface User {
   id: string;
-  email: string;
   name: string;
-  role: UserRole;
-  avatar?: string;
+  email: string;
+  role_id: string;
+  password: string;
+  status: string;
+  // Legacy field for backward compatibility
+  role?: UserRole;
 }
 
 export interface AuthContextType {
@@ -15,103 +18,125 @@ export interface AuthContextType {
   isAuthenticated: boolean;
 }
 
+export interface Citizen {
+  id: string;
+  user_id: string;
+  national_id: string;
+  address: string;
+  contact: string;
+  date_of_birth: string;
+}
+
 export type RequestStatus = 'pending' | 'in_review' | 'approved' | 'rejected' | 'completed';
 export type PermitType = 'business' | 'construction' | 'vehicle' | 'event';
 export type RequestType = 'residency' | 'birth' | 'death' | 'marriage' | 'garbage' | 'street_repair' | 'complaint';
 
 export interface CitizenRequest {
   id: string;
-  citizenId: string;
-  citizenName: string;
+  citizen_id: string;
   type: RequestType;
-  description: string;
   status: RequestStatus;
-  submittedDate: string;
-  lastUpdated: string;
+  submission_date: string;
+  completion_date?: string;
+  description?: string;
+  // Display fields (from joins)
+  citizenName?: string;
   assignedTo?: string;
 }
 
 export interface Permit {
   id: string;
-  citizenId: string;
-  citizenName: string;
   type: PermitType;
-  description: string;
+  applicant_id: string;
   status: RequestStatus;
-  submittedDate: string;
-  expiryDate?: string;
-  fee: number;
-  documents: string[];
+  issue_date: string;
+  expiry_date?: string;
+  related_documents?: string[];
+  // Display fields (from joins)
+  citizenName?: string;
+  description?: string;
+  fee?: number;
 }
 
 export interface Payment {
   id: string;
-  citizenId: string;
-  citizenName: string;
-  type: 'property_tax' | 'water' | 'electricity' | 'waste';
+  citizen_id: string;
   amount: number;
-  dueDate: string;
-  paidDate?: string;
+  payment_type: 'property_tax' | 'water' | 'electricity' | 'waste';
+  date: string;
   status: 'pending' | 'paid' | 'overdue';
+  // Display fields (from joins)
+  citizenName?: string;
   receiptNumber?: string;
 }
 
 export interface Project {
   id: string;
   name: string;
-  description: string;
-  status: 'planning' | 'in_progress' | 'completed' | 'on_hold';
+  department_id: string;
   budget: number;
-  spent: number;
-  startDate: string;
-  endDate: string;
-  manager: string;
-  progress: number;
+  start_date: string;
+  end_date: string;
+  status: 'planning' | 'in_progress' | 'completed' | 'on_hold';
+  // Display fields
+  description?: string;
+  manager?: string;
+  progress?: number;
+  spent?: number;
 }
 
 export interface Task {
   id: string;
-  projectId: string;
+  project_id: string;
   title: string;
-  description: string;
+  assignee_id: string;
   status: 'todo' | 'in_progress' | 'review' | 'done';
-  assignee: string;
-  dueDate: string;
-  priority: 'low' | 'medium' | 'high';
+  start_date: string;
+  end_date: string;
+  // Display fields
+  description?: string;
+  priority?: 'low' | 'medium' | 'high';
+  assigneeName?: string;
 }
 
 export interface Employee {
   id: string;
-  name: string;
-  email: string;
-  department: string;
+  user_id: string;
   position: string;
-  phone: string;
-  joinDate: string;
+  department_id: string;
+  hire_date: string;
   salary: number;
-  status: 'active' | 'on_leave' | 'inactive';
-  avatar?: string;
+  // Display fields (from joins)
+  name?: string;
+  email?: string;
+  phone?: string;
+  status?: 'active' | 'on_leave' | 'inactive';
+  departmentName?: string;
 }
 
 export interface Attendance {
   id: string;
-  employeeId: string;
+  employee_id: string;
   date: string;
-  checkIn?: string;
-  checkOut?: string;
-  status: 'present' | 'absent' | 'late' | 'half_day' | 'leave';
+  check_in?: string;
+  check_out?: string;
+  hours_worked?: number;
+  // Display fields
+  employeeName?: string;
+  status?: 'present' | 'absent' | 'late' | 'half_day' | 'leave';
 }
 
 export interface Leave {
   id: string;
-  employeeId: string;
-  employeeName: string;
+  employee_id: string;
   type: 'sick' | 'vacation' | 'personal' | 'emergency';
-  startDate: string;
-  endDate: string;
+  start_date: string;
+  end_date: string;
   reason: string;
   status: 'pending' | 'approved' | 'rejected';
   days: number;
+  // Display fields
+  employeeName?: string;
 }
 
 export interface Event {
@@ -119,12 +144,22 @@ export interface Event {
   title: string;
   description: string;
   date: string;
-  location: string;
-  organizer: string;
+  target_audience?: string;
+  // Display fields
+  location?: string;
+  organizer?: string;
   capacity?: number;
   registered?: number;
-  type: 'public' | 'official' | 'cultural' | 'sports';
-  status: 'upcoming' | 'ongoing' | 'completed' | 'cancelled';
+  type?: 'public' | 'official' | 'cultural' | 'sports';
+  status?: 'upcoming' | 'ongoing' | 'completed' | 'cancelled';
+}
+
+export interface Document {
+  id: string;
+  title: string;
+  link: string;
+  uploaded_by: string;
+  related_entity?: string;
 }
 
 export interface Notification {

@@ -115,7 +115,7 @@ export default function MyPayments() {
                     <div className="flex flex-col sm:flex-row justify-between gap-4">
                       <div className="space-y-2 flex-1">
                         <div className="flex items-center gap-2 flex-wrap">
-                          <h3 className="font-semibold">{payment.type.replace('_', ' ').toUpperCase()}</h3>
+                          <h3 className="font-semibold">{payment.payment_type.replace('_', ' ').toUpperCase()}</h3>
                           <Badge variant="outline" className={getStatusColor(payment.status)}>
                             {payment.status}
                           </Badge>
@@ -126,17 +126,11 @@ export default function MyPayments() {
                             <span className="font-semibold text-lg">${payment.amount.toLocaleString()}</span>
                           </div>
                           <div>
-                            <span className="text-muted-foreground">Due: </span>
+                            <span className="text-muted-foreground">Date: </span>
                             <span className={payment.status === 'overdue' ? 'text-red-500 font-medium' : ''}>
-                              {new Date(payment.dueDate).toLocaleDateString()}
+                              {new Date(payment.date).toLocaleDateString()}
                             </span>
                           </div>
-                          {payment.paidDate && (
-                            <div>
-                              <span className="text-muted-foreground">Paid: </span>
-                              {new Date(payment.paidDate).toLocaleDateString()}
-                            </div>
-                          )}
                           {payment.receiptNumber && (
                             <div>
                               <span className="text-muted-foreground">Receipt: </span>
@@ -163,7 +157,7 @@ export default function MyPayments() {
                               <DialogHeader>
                                 <DialogTitle>Make Payment</DialogTitle>
                                 <DialogDescription>
-                                  Pay ${payment.amount} for {payment.type.replace('_', ' ')}
+                                  Pay ${payment.amount} for {payment.payment_type.replace('_', ' ')}
                                 </DialogDescription>
                               </DialogHeader>
                               <div className="grid gap-4 py-4">
