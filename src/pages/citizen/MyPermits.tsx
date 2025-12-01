@@ -5,6 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { Plus, FileText, Calendar, DollarSign } from 'lucide-react';
 import { mockPermits } from '@/lib/mockData';
 import { Permit } from '@/types';
+import { toast } from 'sonner';
 import {
   Dialog,
   DialogContent,
@@ -27,6 +28,44 @@ import {
 
 export default function MyPermits() {
   const [permits] = useState<Permit[]>(mockPermits);
+  const [selectedPermit, setSelectedPermit] = useState<Permit | null>(null);
+  const [detailsOpen, setDetailsOpen] = useState(false);
+
+  const handleViewDetails = (permit: Permit) => {
+    setSelectedPermit(permit);
+    setDetailsOpen(true);
+  };
+
+  const handleDownload = (permit: Permit) => {
+    // Simulate download
+    const data = `Municipality Management System
+Permit Certificate
+
+Permit ID: ${permit.id}
+Type: ${permit.type.replace('_', ' ').toUpperCase()}
+Status: ${permit.status}
+Issue Date: ${new Date(permit.issue_date).toLocaleDateString()}
+${permit.expiry_date ? `Expiry Date: ${new Date(permit.expiry_date).toLocaleDateString()}` : ''}
+Fee: $${permit.fee}
+
+Description:
+${permit.description}
+
+This is an official permit issued by the municipality.
+`;
+    
+    const blob = new Blob([data], { type: 'text/plain' });
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `permit-${permit.id}.txt`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    window.URL.revokeObjectURL(url);
+    
+    toast.success('Permit downloaded successfully');
+  };
 
   const getStatusColor = (status: Permit['status']) => {
     switch (status) {
@@ -161,11 +200,11 @@ export default function MyPermits() {
                           <p className="text-sm text-muted-foreground">{permit.description}</p>
                         </div>
                         <div className="flex sm:flex-col gap-2">
-                          <Button variant="outline" size="sm" className="flex-1">
+                          <Button variant="outline" size="sm" className="flex-1" onClick={() => handleViewDetails(permit)}>
                             View Details
                           </Button>
                           {permit.status === 'approved' && (
-                            <Button variant="outline" size="sm" className="flex-1">
+                            <Button variant="outline" size="sm" className="flex-1" onClick={() => handleDownload(permit)}>
                               Download
                             </Button>
                           )}
@@ -225,6 +264,69 @@ export default function MyPermits() {
             </div>
           </CardContent>
         </Card>
+
+        <Dialog open={detailsOpen} onOpenChange={setDetailsOpen}>
+          <DialogContent className="sm:max-w-[525px]">
+            <DialogHeader>
+              <DialogTitle>Permit Details</DialogTitle>
+              <DialogDescription>
+                Complete information about your permit
+              </DialogDescription>
+            </DialogHeader>
+            {selectedPermit && (
+              <div className="space-y-4">
+                <div>
+                  <Label>Permit Type</Label>
+                  <p className="text-sm font-medium mt-1">{selectedPermit.type.replace('_', ' ').toUpperCase()} LICENSE</p>
+                </div>
+                <div>
+                  <Label>Status</Label>
+                  <Badge variant="outline" className={getStatusColor(selectedPermit.status)}>
+                    {selectedPermit.status.replace('_', ' ')}
+                  </Badge>
+                </div>
+                <div>
+                  <Label>Description</Label>
+                  <p className="text-sm mt-1">{selectedPermit.description}</p>
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <Label>Issue Date</Label>
+                    <p className="text-sm mt-1">{new Date(selectedPermit.issue_date).toLocaleDateString()}</p>
+                  </div>
+                  {selectedPermit.expiry_date && (
+                    <div>
+                      <Label>Expiry Date</Label>
+                      <p className="text-sm mt-1">{new Date(selectedPermit.expiry_date).toLocaleDateString()}</p>
+                    </div>
+                  )}
+                </div>
+                <div>
+                  <Label>Fee</Label>
+                  <p className="text-sm mt-1">${selectedPermit.fee.toLocaleString()}</p>
+                </div>
+                {selectedPermit.related_documents && selectedPermit.related_documents.length > 0 && (
+                  <div>
+                    <Label>Related Documents</Label>
+                    <div className="flex flex-wrap gap-2 mt-2">
+                      {selectedPermit.related_documents.map((doc, idx) => (
+                        <Badge key={idx} variant="secondary">
+                          {doc}
+                        </Badge>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+            <DialogFooter>
+              <Button variant="outline" onClick={() => setDetailsOpen(false)}>Close</Button>
+              {selectedPermit?.status === 'approved' && (
+                <Button onClick={() => selectedPermit && handleDownload(selectedPermit)}>Download Permit</Button>
+              )}
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
       </div>
   );
 }

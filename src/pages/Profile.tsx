@@ -6,9 +6,31 @@ import { useAuth } from '@/contexts/AuthContext';
 import { User, Mail, Phone, MapPin, Building, Calendar } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
+import { toast } from 'sonner';
+import { useRef } from 'react';
 
 export default function Profile() {
   const { user } = useAuth();
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handlePhotoChange = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      toast.success('Profile photo updated successfully');
+    }
+  };
+
+  const handleSaveProfile = () => {
+    toast.success('Profile updated successfully');
+  };
+
+  const handleUpdatePassword = () => {
+    toast.success('Password updated successfully');
+  };
 
   return (
     <div className="space-y-6 max-w-4xl">
@@ -30,7 +52,14 @@ export default function Profile() {
                     {user?.role.replace('_', ' ')}
                   </Badge>
                 </div>
-                <Button variant="outline" className="w-full">
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/*"
+                  onChange={handleFileSelect}
+                  className="hidden"
+                />
+                <Button variant="outline" className="w-full" onClick={handlePhotoChange}>
                   Change Photo
                 </Button>
               </div>
@@ -84,7 +113,7 @@ export default function Profile() {
               </div>
               <div className="flex justify-end gap-2 pt-4">
                 <Button variant="outline">Cancel</Button>
-                <Button>Save Changes</Button>
+                <Button onClick={handleSaveProfile}>Save Changes</Button>
               </div>
             </CardContent>
           </Card>
@@ -151,7 +180,7 @@ export default function Profile() {
             </div>
             <div className="flex justify-end gap-2 pt-4">
               <Button variant="outline">Cancel</Button>
-              <Button>Update Password</Button>
+              <Button onClick={handleUpdatePassword}>Update Password</Button>
             </div>
           </CardContent>
         </Card>

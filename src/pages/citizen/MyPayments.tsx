@@ -5,6 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { DollarSign, CreditCard, Download, AlertCircle } from 'lucide-react';
 import { mockPayments } from '@/lib/mockData';
 import { Payment } from '@/types';
+import { toast } from 'sonner';
 import {
   Dialog,
   DialogContent,
@@ -26,6 +27,34 @@ import {
 
 export default function MyPayments() {
   const [payments] = useState<Payment[]>(mockPayments);
+
+  const handleDownloadReceipt = (payment: Payment) => {
+    // Generate receipt data
+    const receiptData = `Municipality Management System
+Payment Receipt
+
+Receipt Number: ${payment.receiptNumber || 'N/A'}
+Payment ID: ${payment.id}
+Payment Type: ${payment.payment_type.replace('_', ' ').toUpperCase()}
+Amount: $${payment.amount.toLocaleString()}
+Date: ${new Date(payment.date).toLocaleDateString()}
+Status: ${payment.status.toUpperCase()}
+
+Thank you for your payment!
+`;
+    
+    const blob = new Blob([receiptData], { type: 'text/plain' });
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `receipt-${payment.id}.txt`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    window.URL.revokeObjectURL(url);
+    
+    toast.success('Receipt downloaded successfully');
+  };
 
   const getStatusColor = (status: Payment['status']) => {
     switch (status) {
@@ -141,7 +170,7 @@ export default function MyPayments() {
                       </div>
                       <div className="flex sm:flex-col gap-2">
                         {payment.status === 'paid' ? (
-                          <Button variant="outline" size="sm" className="flex-1 gap-2">
+                          <Button variant="outline" size="sm" className="flex-1 gap-2" onClick={() => handleDownloadReceipt(payment)}>
                             <Download className="h-4 w-4" />
                             Receipt
                           </Button>

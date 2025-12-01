@@ -2,6 +2,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { useNavigate } from 'react-router-dom';
 import {
   Users,
   FileText,
@@ -200,6 +201,8 @@ const AdminDashboard = () => {
 };
 
 const CitizenDashboard = () => {
+  const navigate = useNavigate();
+  
   return (
     <>
       <div>
@@ -265,19 +268,19 @@ const CitizenDashboard = () => {
             <CardDescription>Common tasks and services</CardDescription>
           </CardHeader>
           <CardContent className="grid grid-cols-2 gap-3">
-            <Button variant="outline" className="h-20 flex flex-col gap-2">
+            <Button variant="outline" className="h-20 flex flex-col gap-2" onClick={() => navigate('/citizen/requests')}>
               <FileText className="h-5 w-5" />
               <span className="text-xs">New Request</span>
             </Button>
-            <Button variant="outline" className="h-20 flex flex-col gap-2">
+            <Button variant="outline" className="h-20 flex flex-col gap-2" onClick={() => navigate('/citizen/payments')}>
               <DollarSign className="h-5 w-5" />
               <span className="text-xs">Pay Bills</span>
             </Button>
-            <Button variant="outline" className="h-20 flex flex-col gap-2">
+            <Button variant="outline" className="h-20 flex flex-col gap-2" onClick={() => navigate('/citizen/permits')}>
               <CheckCircle2 className="h-5 w-5" />
               <span className="text-xs">Apply Permit</span>
             </Button>
-            <Button variant="outline" className="h-20 flex flex-col gap-2">
+            <Button variant="outline" className="h-20 flex flex-col gap-2" onClick={() => navigate('/admin/events')}>
               <Calendar className="h-5 w-5" />
               <span className="text-xs">View Events</span>
             </Button>

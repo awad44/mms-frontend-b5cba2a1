@@ -1,6 +1,8 @@
 import { useLocation } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { NavLink } from '@/components/NavLink';
+import { useState, useEffect } from 'react';
+import { mockNotifications } from '@/lib/mockData';
 import {
   Sidebar,
   SidebarContent,
@@ -26,11 +28,18 @@ import {
   Bell,
   CreditCard,
 } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
 
 export const AppSidebar = () => {
   const { user } = useAuth();
   const { open } = useSidebar();
   const location = useLocation();
+  const [unreadCount, setUnreadCount] = useState(0);
+
+  useEffect(() => {
+    const count = mockNotifications.filter(n => !n.read).length;
+    setUnreadCount(count);
+  }, [location.pathname]);
 
   const getMenuItems = () => {
     const citizenItems = [
@@ -125,11 +134,19 @@ export const AppSidebar = () => {
                   <SidebarMenuButton asChild>
                     <NavLink
                       to={item.url}
-                      className="hover:bg-sidebar-accent"
+                      className="hover:bg-sidebar-accent relative"
                       activeClassName="bg-sidebar-accent text-sidebar-accent-foreground font-medium"
                     >
                       <item.icon className="h-4 w-4" />
                       {open && <span>{item.title}</span>}
+                      {item.title === 'Notifications' && unreadCount > 0 && (
+                        <Badge 
+                          variant="destructive" 
+                          className="ml-auto h-5 w-5 flex items-center justify-center p-0 text-xs"
+                        >
+                          {unreadCount}
+                        </Badge>
+                      )}
                     </NavLink>
                   </SidebarMenuButton>
                 </SidebarMenuItem>

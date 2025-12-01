@@ -90,11 +90,20 @@ export default function CitizenServices() {
   const confirmApprove = () => {
     if (!actionRequest) return;
     
-    setRequests(prev => prev.map(req => 
-      req.id === actionRequest.id 
-        ? { ...req, status: 'approved' as RequestStatus, completion_date: new Date().toISOString() }
-        : req
-    ));
+    const updatedRequest = { 
+      ...actionRequest, 
+      status: 'approved' as RequestStatus, 
+      completion_date: new Date().toISOString() 
+    };
+    
+    setRequests(prev => {
+      const newRequests = prev.map(req => 
+        req.id === actionRequest.id ? updatedRequest : req
+      );
+      // Save to localStorage for persistence
+      localStorage.setItem('citizenRequests', JSON.stringify(newRequests));
+      return newRequests;
+    });
     
     toast({
       title: "Request Approved",
@@ -108,11 +117,20 @@ export default function CitizenServices() {
   const confirmReject = () => {
     if (!actionRequest) return;
     
-    setRequests(prev => prev.map(req => 
-      req.id === actionRequest.id 
-        ? { ...req, status: 'rejected' as RequestStatus, completion_date: new Date().toISOString() }
-        : req
-    ));
+    const updatedRequest = { 
+      ...actionRequest, 
+      status: 'rejected' as RequestStatus,
+      completion_date: new Date().toISOString()
+    };
+    
+    setRequests(prev => {
+      const newRequests = prev.map(req => 
+        req.id === actionRequest.id ? updatedRequest : req
+      );
+      // Save to localStorage for persistence
+      localStorage.setItem('citizenRequests', JSON.stringify(newRequests));
+      return newRequests;
+    });
     
     toast({
       title: "Request Rejected",

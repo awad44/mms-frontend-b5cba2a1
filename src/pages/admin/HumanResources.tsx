@@ -325,22 +325,175 @@ export default function HumanResources() {
         <TabsContent value="payroll" className="mt-4 sm:mt-6">
           <Card>
             <CardHeader>
-              <CardTitle className="text-lg sm:text-xl">Payroll Overview</CardTitle>
-              <CardDescription className="text-xs sm:text-sm">Monthly salary processing</CardDescription>
+              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 sm:gap-0">
+                <div>
+                  <CardTitle className="text-lg sm:text-xl">Payroll Overview</CardTitle>
+                  <CardDescription className="text-xs sm:text-sm">Monthly salary processing for all employees</CardDescription>
+                </div>
+                <Button className="w-full sm:w-auto text-sm" onClick={handleProcessPayroll}>Process Payroll</Button>
+              </div>
             </CardHeader>
             <CardContent>
-              <div className="text-center py-8 sm:py-12">
-                <Calendar className="h-12 w-12 sm:h-16 sm:w-16 mx-auto text-muted-foreground mb-4" />
-                <h3 className="text-base sm:text-lg font-semibold mb-2">Payroll Processing</h3>
-                <p className="text-xs sm:text-sm text-muted-foreground">
-                  Monthly payroll will be processed on the 25th
-                </p>
-                <Button className="mt-6 text-sm" onClick={handleProcessPayroll}>Process Payroll</Button>
+              <div className="space-y-4 sm:space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4">
+                  <Card>
+                    <CardContent className="p-3 sm:p-4">
+                      <div className="text-lg sm:text-xl font-bold">$1.2M</div>
+                      <div className="text-xs sm:text-sm text-muted-foreground">Total Monthly Payroll</div>
+                    </CardContent>
+                  </Card>
+                  <Card>
+                    <CardContent className="p-3 sm:p-4">
+                      <div className="text-lg sm:text-xl font-bold">156</div>
+                      <div className="text-xs sm:text-sm text-muted-foreground">Employees to Process</div>
+                    </CardContent>
+                  </Card>
+                  <Card>
+                    <CardContent className="p-3 sm:p-4">
+                      <div className="text-lg sm:text-xl font-bold">25th</div>
+                      <div className="text-xs sm:text-sm text-muted-foreground">Payment Date</div>
+                    </CardContent>
+                  </Card>
+                </div>
+                
+                <div className="rounded-md border overflow-x-auto">
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead className="whitespace-nowrap">Employee</TableHead>
+                        <TableHead className="whitespace-nowrap">Position</TableHead>
+                        <TableHead className="whitespace-nowrap">Department</TableHead>
+                        <TableHead className="whitespace-nowrap">Base Salary</TableHead>
+                        <TableHead className="whitespace-nowrap">Bonuses</TableHead>
+                        <TableHead className="whitespace-nowrap">Deductions</TableHead>
+                        <TableHead className="whitespace-nowrap">Net Pay</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {mockEmployees.slice(0, 5).map((employee) => {
+                        const bonus = Math.floor(Math.random() * 500);
+                        const deduction = Math.floor(Math.random() * 300);
+                        const netPay = employee.salary + bonus - deduction;
+                        return (
+                          <TableRow key={employee.id}>
+                            <TableCell className="text-sm">{employee.name}</TableCell>
+                            <TableCell className="text-sm">{employee.position}</TableCell>
+                            <TableCell className="text-sm">{employee.departmentName}</TableCell>
+                            <TableCell className="text-sm">${employee.salary.toLocaleString()}</TableCell>
+                            <TableCell className="text-sm text-success">+${bonus}</TableCell>
+                            <TableCell className="text-sm text-destructive">-${deduction}</TableCell>
+                            <TableCell className="text-sm font-semibold">${netPay.toLocaleString()}</TableCell>
+                          </TableRow>
+                        );
+                      })}
+                    </TableBody>
+                  </Table>
+                </div>
               </div>
             </CardContent>
           </Card>
         </TabsContent>
       </Tabs>
+
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-lg sm:text-xl">Internal Communication & Task Assignments</CardTitle>
+          <CardDescription className="text-xs sm:text-sm">Team collaboration and task management</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <Tabs defaultValue="tasks" className="w-full">
+            <TabsList className="grid w-full grid-cols-2">
+              <TabsTrigger value="tasks" className="text-xs sm:text-sm">Tasks</TabsTrigger>
+              <TabsTrigger value="messages" className="text-xs sm:text-sm">Messages</TabsTrigger>
+            </TabsList>
+            
+            <TabsContent value="tasks" className="mt-4 space-y-3">
+              <div className="space-y-2 sm:space-y-3">
+                <Card>
+                  <CardContent className="p-3 sm:p-4">
+                    <div className="flex flex-col sm:flex-row justify-between gap-2 sm:gap-0">
+                      <div className="flex-1">
+                        <h4 className="font-medium text-sm sm:text-base">Review Q1 Budget Reports</h4>
+                        <p className="text-xs sm:text-sm text-muted-foreground">Assigned to: Finance Officer</p>
+                        <p className="text-xs text-muted-foreground mt-1">Due: Feb 5, 2024</p>
+                      </div>
+                      <Badge className="self-start sm:self-center text-xs">In Progress</Badge>
+                    </div>
+                  </CardContent>
+                </Card>
+                
+                <Card>
+                  <CardContent className="p-3 sm:p-4">
+                    <div className="flex flex-col sm:flex-row justify-between gap-2 sm:gap-0">
+                      <div className="flex-1">
+                        <h4 className="font-medium text-sm sm:text-base">Update Employee Handbook</h4>
+                        <p className="text-xs sm:text-sm text-muted-foreground">Assigned to: HR Manager</p>
+                        <p className="text-xs text-muted-foreground mt-1">Due: Feb 10, 2024</p>
+                      </div>
+                      <Badge variant="outline" className="self-start sm:self-center text-xs">Pending</Badge>
+                    </div>
+                  </CardContent>
+                </Card>
+                
+                <Card>
+                  <CardContent className="p-3 sm:p-4">
+                    <div className="flex flex-col sm:flex-row justify-between gap-2 sm:gap-0">
+                      <div className="flex-1">
+                        <h4 className="font-medium text-sm sm:text-base">Complete Staff Training Program</h4>
+                        <p className="text-xs sm:text-sm text-muted-foreground">Assigned to: Training Coordinator</p>
+                        <p className="text-xs text-muted-foreground mt-1">Due: Jan 30, 2024</p>
+                      </div>
+                      <Badge className="bg-success self-start sm:self-center text-xs">Completed</Badge>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            </TabsContent>
+            
+            <TabsContent value="messages" className="mt-4 space-y-3">
+              <div className="space-y-2 sm:space-y-3">
+                <Card>
+                  <CardContent className="p-3 sm:p-4">
+                    <div className="flex items-start gap-2 sm:gap-3">
+                      <Avatar className="h-8 w-8 sm:h-10 sm:w-10">
+                        <AvatarFallback className="text-xs sm:text-sm">AU</AvatarFallback>
+                      </Avatar>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2">
+                          <p className="font-medium text-sm">Admin User</p>
+                          <span className="text-xs text-muted-foreground">2 hours ago</span>
+                        </div>
+                        <p className="text-xs sm:text-sm text-muted-foreground mt-1">
+                          Please review the updated attendance policy and provide feedback by end of week.
+                        </p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+                
+                <Card>
+                  <CardContent className="p-3 sm:p-4">
+                    <div className="flex items-start gap-2 sm:gap-3">
+                      <Avatar className="h-8 w-8 sm:h-10 sm:w-10">
+                        <AvatarFallback className="text-xs sm:text-sm">FO</AvatarFallback>
+                      </Avatar>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2">
+                          <p className="font-medium text-sm">Finance Officer</p>
+                          <span className="text-xs text-muted-foreground">5 hours ago</span>
+                        </div>
+                        <p className="text-xs sm:text-sm text-muted-foreground mt-1">
+                          Budget allocation for Q2 has been approved. Distribution will begin next week.
+                        </p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            </TabsContent>
+          </Tabs>
+        </CardContent>
+      </Card>
 
       <Dialog open={addEmployeeOpen} onOpenChange={setAddEmployeeOpen}>
         <DialogContent className="sm:max-w-[425px] max-h-[90vh] overflow-y-auto">

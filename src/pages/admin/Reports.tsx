@@ -102,17 +102,17 @@ Jun,67000`;
 
   return (
     <div className="space-y-6">
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        <div className="flex flex-col gap-4 sm:flex-row sm:justify-between sm:items-center">
           <div>
-            <h1 className="text-3xl font-bold text-foreground">Reports & Analytics</h1>
-            <p className="text-muted-foreground">Comprehensive system insights and data analysis</p>
+            <h1 className="text-2xl sm:text-3xl font-bold text-foreground">Reports & Analytics</h1>
+            <p className="text-sm sm:text-base text-muted-foreground">Comprehensive system insights and data analysis</p>
           </div>
-          <div className="flex gap-2">
-            <Button variant="outline" className="gap-2" onClick={() => exportReport('PDF')}>
+          <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
+            <Button variant="outline" className="gap-2 w-full sm:w-auto" onClick={() => exportReport('PDF')}>
               <Download className="h-4 w-4" />
               Export PDF
             </Button>
-            <Button variant="outline" className="gap-2" onClick={() => exportReport('Excel')}>
+            <Button variant="outline" className="gap-2 w-full sm:w-auto" onClick={() => exportReport('Excel')}>
               <FileText className="h-4 w-4" />
               Export Excel
             </Button>

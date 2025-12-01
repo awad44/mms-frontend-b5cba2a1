@@ -5,6 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { Plus, Clock, CheckCircle, XCircle, AlertCircle } from 'lucide-react';
 import { mockRequests } from '@/lib/mockData';
 import { CitizenRequest } from '@/types';
+import { toast } from 'sonner';
 import {
   Dialog,
   DialogContent,
@@ -26,7 +27,19 @@ import {
 } from '@/components/ui/select';
 
 export default function MyRequests() {
-  const [requests] = useState<CitizenRequest[]>(mockRequests);
+  const [requests, setRequests] = useState<CitizenRequest[]>(mockRequests);
+  const [selectedRequest, setSelectedRequest] = useState<CitizenRequest | null>(null);
+  const [detailsOpen, setDetailsOpen] = useState(false);
+
+  const handleViewDetails = (request: CitizenRequest) => {
+    setSelectedRequest(request);
+    setDetailsOpen(true);
+  };
+
+  const handleCancelRequest = (requestId: string) => {
+    setRequests(prev => prev.filter(r => r.id !== requestId));
+    toast.success('Request cancelled successfully');
+  };
 
   const getStatusIcon = (status: CitizenRequest['status']) => {
     switch (status) {
@@ -179,11 +192,11 @@ export default function MyRequests() {
                         </div>
                       </div>
                       <div className="flex sm:flex-col gap-2">
-                        <Button variant="outline" size="sm" className="flex-1">
+                        <Button variant="outline" size="sm" className="flex-1" onClick={() => handleViewDetails(request)}>
                           View Details
                         </Button>
                         {request.status === 'pending' && (
-                          <Button variant="outline" size="sm" className="flex-1">
+                          <Button variant="outline" size="sm" className="flex-1" onClick={() => handleCancelRequest(request.id)}>
                             Cancel
                           </Button>
                         )}
@@ -195,6 +208,54 @@ export default function MyRequests() {
             </div>
           </CardContent>
         </Card>
+
+        <Dialog open={detailsOpen} onOpenChange={setDetailsOpen}>
+          <DialogContent className="sm:max-w-[525px]">
+            <DialogHeader>
+              <DialogTitle>Request Details</DialogTitle>
+              <DialogDescription>
+                Complete information about your request
+              </DialogDescription>
+            </DialogHeader>
+            {selectedRequest && (
+              <div className="space-y-4">
+                <div>
+                  <Label>Request Type</Label>
+                  <p className="text-sm font-medium mt-1">{selectedRequest.type.replace('_', ' ').toUpperCase()}</p>
+                </div>
+                <div>
+                  <Label>Status</Label>
+                  <Badge variant="outline" className={getStatusColor(selectedRequest.status)}>
+                    {selectedRequest.status.replace('_', ' ')}
+                  </Badge>
+                </div>
+                <div>
+                  <Label>Description</Label>
+                  <p className="text-sm mt-1">{selectedRequest.description}</p>
+                </div>
+                <div>
+                  <Label>Submission Date</Label>
+                  <p className="text-sm mt-1">{new Date(selectedRequest.submission_date).toLocaleDateString()}</p>
+                </div>
+                {selectedRequest.completion_date && (
+                  <div>
+                    <Label>Completion Date</Label>
+                    <p className="text-sm mt-1">{new Date(selectedRequest.completion_date).toLocaleDateString()}</p>
+                  </div>
+                )}
+                {selectedRequest.assignedTo && (
+                  <div>
+                    <Label>Assigned To</Label>
+                    <p className="text-sm mt-1">{selectedRequest.assignedTo}</p>
+                  </div>
+                )}
+              </div>
+            )}
+            <DialogFooter>
+              <Button variant="outline" onClick={() => setDetailsOpen(false)}>Close</Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
       </div>
   );
 }
