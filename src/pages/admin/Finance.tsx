@@ -59,84 +59,84 @@ export default function Finance() {
   };
 
   return (
-    <div className="space-y-4 sm:space-y-6 p-4 sm:p-0">
-      <div>
-        <h1 className="text-2xl sm:text-3xl font-bold text-foreground">Finance & Billing</h1>
-        <p className="text-sm sm:text-base text-muted-foreground mt-1">Revenue management and payment tracking</p>
+    <div className="space-y-4 sm:space-y-6">
+      <div className="px-4 sm:px-0">
+        <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-foreground">Finance & Billing</h1>
+        <p className="text-xs sm:text-sm md:text-base text-muted-foreground mt-1">Revenue management and payment tracking</p>
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-2 sm:gap-4 px-4 sm:px-0">
         <Card>
-          <CardContent className="p-4 sm:p-6">
-            <div className="flex items-center justify-between">
+          <CardContent className="p-3 sm:p-4 md:p-6">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
               <div>
-                <div className="text-xl sm:text-2xl font-bold">$890K</div>
-                <div className="text-xs sm:text-sm text-muted-foreground">Total Revenue</div>
+                <div className="text-lg sm:text-xl md:text-2xl font-bold">$890K</div>
+                <div className="text-[10px] sm:text-xs md:text-sm text-muted-foreground">Total Revenue</div>
               </div>
-              <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-full bg-success/10 flex items-center justify-center">
-                <DollarSign className="h-5 w-5 sm:h-6 sm:w-6 text-success" />
+              <div className="h-8 w-8 sm:h-10 sm:w-10 md:h-12 md:w-12 rounded-full bg-success/10 flex items-center justify-center">
+                <DollarSign className="h-4 w-4 sm:h-5 sm:w-5 md:h-6 md:w-6 text-success" />
               </div>
             </div>
-            <div className="flex items-center gap-1 mt-2 text-xs text-success">
-              <TrendingUp className="h-3 w-3" />
+            <div className="flex items-center gap-1 mt-1 sm:mt-2 text-[10px] sm:text-xs text-success">
+              <TrendingUp className="h-2 w-2 sm:h-3 sm:w-3" />
               <span>+12.4%</span>
             </div>
           </CardContent>
         </Card>
 
         <Card>
-          <CardContent className="p-4 sm:p-6">
-            <div className="flex items-center justify-between">
+          <CardContent className="p-3 sm:p-4 md:p-6">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
               <div>
-                <div className="text-xl sm:text-2xl font-bold">$745K</div>
-                <div className="text-xs sm:text-sm text-muted-foreground">Collected</div>
+                <div className="text-lg sm:text-xl md:text-2xl font-bold">$745K</div>
+                <div className="text-[10px] sm:text-xs md:text-sm text-muted-foreground">Collected</div>
               </div>
-              <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-full bg-primary/10 flex items-center justify-center">
-                <TrendingUp className="h-5 w-5 sm:h-6 sm:w-6 text-primary" />
+              <div className="h-8 w-8 sm:h-10 sm:w-10 md:h-12 md:w-12 rounded-full bg-primary/10 flex items-center justify-center">
+                <TrendingUp className="h-4 w-4 sm:h-5 sm:w-5 md:h-6 md:w-6 text-primary" />
               </div>
             </div>
-            <div className="text-xs text-primary mt-2">83.7% collection rate</div>
+            <div className="text-[10px] sm:text-xs text-primary mt-1 sm:mt-2">83.7% rate</div>
           </CardContent>
         </Card>
 
         <Card>
-          <CardContent className="p-4 sm:p-6">
-            <div className="flex items-center justify-between">
+          <CardContent className="p-3 sm:p-4 md:p-6">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
               <div>
-                <div className="text-xl sm:text-2xl font-bold">$120K</div>
-                <div className="text-xs sm:text-sm text-muted-foreground">Pending</div>
+                <div className="text-lg sm:text-xl md:text-2xl font-bold">$120K</div>
+                <div className="text-[10px] sm:text-xs md:text-sm text-muted-foreground">Pending</div>
               </div>
-              <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-full bg-warning/10 flex items-center justify-center">
-                <Clock className="h-5 w-5 sm:h-6 sm:w-6 text-warning" />
+              <div className="h-8 w-8 sm:h-10 sm:w-10 md:h-12 md:w-12 rounded-full bg-warning/10 flex items-center justify-center">
+                <Clock className="h-4 w-4 sm:h-5 sm:w-5 md:h-6 md:w-6 text-warning" />
               </div>
             </div>
-            <div className="text-xs text-muted-foreground mt-2">Due within 30 days</div>
+            <div className="text-[10px] sm:text-xs text-muted-foreground mt-1 sm:mt-2">Due in 30d</div>
           </CardContent>
         </Card>
 
         <Card>
-          <CardContent className="p-4 sm:p-6">
-            <div className="flex items-center justify-between">
+          <CardContent className="p-3 sm:p-4 md:p-6">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
               <div>
-                <div className="text-xl sm:text-2xl font-bold">$25K</div>
-                <div className="text-xs sm:text-sm text-muted-foreground">Overdue</div>
+                <div className="text-lg sm:text-xl md:text-2xl font-bold">$25K</div>
+                <div className="text-[10px] sm:text-xs md:text-sm text-muted-foreground">Overdue</div>
               </div>
-              <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-full bg-destructive/10 flex items-center justify-center">
-                <AlertCircle className="h-5 w-5 sm:h-6 sm:w-6 text-destructive" />
+              <div className="h-8 w-8 sm:h-10 sm:w-10 md:h-12 md:w-12 rounded-full bg-destructive/10 flex items-center justify-center">
+                <AlertCircle className="h-4 w-4 sm:h-5 sm:w-5 md:h-6 md:w-6 text-destructive" />
               </div>
             </div>
-            <div className="text-xs text-muted-foreground mt-2">18 accounts</div>
+            <div className="text-[10px] sm:text-xs text-muted-foreground mt-1 sm:mt-2">18 accounts</div>
           </CardContent>
         </Card>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 px-4 sm:px-0">
         <Card>
-          <CardHeader>
-            <CardTitle className="text-lg sm:text-xl">Revenue Distribution</CardTitle>
+          <CardHeader className="p-4 sm:p-6">
+            <CardTitle className="text-base sm:text-lg md:text-xl">Revenue Distribution</CardTitle>
             <CardDescription className="text-xs sm:text-sm">Income by category</CardDescription>
           </CardHeader>
-          <CardContent>
+          <CardContent className="p-4 sm:p-6">
             <ResponsiveContainer width="100%" height={250}>
               <PieChart>
                 <Pie
@@ -160,18 +160,18 @@ export default function Finance() {
         </Card>
 
         <Card>
-          <CardHeader>
-            <CardTitle className="text-lg sm:text-xl">Monthly Collection</CardTitle>
+          <CardHeader className="p-4 sm:p-6">
+            <CardTitle className="text-base sm:text-lg md:text-xl">Monthly Collection</CardTitle>
             <CardDescription className="text-xs sm:text-sm">Collected vs Target</CardDescription>
           </CardHeader>
-          <CardContent>
+          <CardContent className="p-4 sm:p-6">
             <ResponsiveContainer width="100%" height={250}>
               <BarChart data={monthlyRevenue}>
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="month" style={{ fontSize: '12px' }} />
-                <YAxis style={{ fontSize: '12px' }} />
+                <XAxis dataKey="month" style={{ fontSize: '10px' }} />
+                <YAxis style={{ fontSize: '10px' }} />
                 <Tooltip />
-                <Legend wrapperStyle={{ fontSize: '12px' }} />
+                <Legend wrapperStyle={{ fontSize: '10px' }} />
                 <Bar dataKey="collected" fill="hsl(var(--success))" name="Collected" />
                 <Bar dataKey="target" fill="hsl(var(--primary))" name="Target" />
               </BarChart>
@@ -180,22 +180,22 @@ export default function Finance() {
         </Card>
       </div>
 
-      <Card>
-        <CardHeader>
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+      <Card className="mx-4 sm:mx-0">
+        <CardHeader className="p-4 sm:p-6">
+          <div className="flex flex-col gap-3">
             <div>
-              <CardTitle className="text-lg sm:text-xl">Payment Transactions</CardTitle>
+              <CardTitle className="text-base sm:text-lg md:text-xl">Payment Transactions</CardTitle>
               <CardDescription className="text-xs sm:text-sm">Recent payment activity</CardDescription>
             </div>
-            <Button onClick={handleExportReport} className="w-full sm:w-auto text-sm">
-              <Download className="h-4 w-4 mr-2" />
+            <Button onClick={handleExportReport} className="w-full sm:w-auto text-xs sm:text-sm">
+              <Download className="h-3 w-3 sm:h-4 sm:w-4 mr-2" />
               Export Report
             </Button>
           </div>
         </CardHeader>
-        <CardContent>
+        <CardContent className="p-4 sm:p-6">
           <Tabs value={activeTab} onValueChange={setActiveTab}>
-            <TabsList className="grid w-full grid-cols-4 mb-4">
+            <TabsList className="grid w-full grid-cols-4 mb-3 sm:mb-4 h-8 sm:h-10">
               <TabsTrigger value="all" className="text-xs sm:text-sm">All</TabsTrigger>
               <TabsTrigger value="paid" className="text-xs sm:text-sm">Paid</TabsTrigger>
               <TabsTrigger value="pending" className="text-xs sm:text-sm">Pending</TabsTrigger>
