@@ -189,63 +189,63 @@ export default function CitizenServices() {
   };
 
   return (
-    <div className="space-y-4 sm:space-y-6 p-4 sm:p-0">
-      <div>
-        <h1 className="text-2xl sm:text-3xl font-bold text-foreground">Citizen Services</h1>
-        <p className="text-sm sm:text-base text-muted-foreground mt-1">Manage citizen requests and applications</p>
+    <div className="space-y-4 sm:space-y-6">
+      <div className="px-4 sm:px-0">
+        <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-foreground">Citizen Services</h1>
+        <p className="text-xs sm:text-sm md:text-base text-muted-foreground mt-1">Manage citizen requests and applications</p>
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-2 sm:gap-4 px-4 sm:px-0">
         <Card>
-          <CardContent className="p-4 sm:p-6">
-            <div className="text-xl sm:text-2xl font-bold">186</div>
-            <div className="text-xs sm:text-sm text-muted-foreground">Total Requests</div>
+          <CardContent className="p-3 sm:p-4 md:p-6">
+            <div className="text-lg sm:text-xl md:text-2xl font-bold">186</div>
+            <div className="text-[10px] sm:text-xs md:text-sm text-muted-foreground">Total Requests</div>
           </CardContent>
         </Card>
         <Card>
-          <CardContent className="p-4 sm:p-6">
-            <div className="text-xl sm:text-2xl font-bold text-warning">45</div>
-            <div className="text-xs sm:text-sm text-muted-foreground">Pending</div>
+          <CardContent className="p-3 sm:p-4 md:p-6">
+            <div className="text-lg sm:text-xl md:text-2xl font-bold text-warning">45</div>
+            <div className="text-[10px] sm:text-xs md:text-sm text-muted-foreground">Pending</div>
           </CardContent>
         </Card>
         <Card>
-          <CardContent className="p-4 sm:p-6">
-            <div className="text-xl sm:text-2xl font-bold text-accent">32</div>
-            <div className="text-xs sm:text-sm text-muted-foreground">In Review</div>
+          <CardContent className="p-3 sm:p-4 md:p-6">
+            <div className="text-lg sm:text-xl md:text-2xl font-bold text-accent">32</div>
+            <div className="text-[10px] sm:text-xs md:text-sm text-muted-foreground">In Review</div>
           </CardContent>
         </Card>
         <Card>
-          <CardContent className="p-4 sm:p-6">
-            <div className="text-xl sm:text-2xl font-bold text-success">109</div>
-            <div className="text-xs sm:text-sm text-muted-foreground">Completed</div>
+          <CardContent className="p-3 sm:p-4 md:p-6">
+            <div className="text-lg sm:text-xl md:text-2xl font-bold text-success">109</div>
+            <div className="text-[10px] sm:text-xs md:text-sm text-muted-foreground">Completed</div>
           </CardContent>
         </Card>
       </div>
 
-      <Card>
-        <CardHeader>
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+      <Card className="mx-4 sm:mx-0">
+        <CardHeader className="p-4 sm:p-6">
+          <div className="flex flex-col gap-3">
             <div>
-              <CardTitle className="text-lg sm:text-xl">All Requests</CardTitle>
+              <CardTitle className="text-base sm:text-lg md:text-xl">All Requests</CardTitle>
               <CardDescription className="text-xs sm:text-sm">View and manage citizen service requests</CardDescription>
             </div>
-            <Button onClick={() => setCreateDialogOpen(true)} className="w-full sm:w-auto text-sm">Create New Request</Button>
+            <Button onClick={() => setCreateDialogOpen(true)} className="w-full sm:w-auto text-xs sm:text-sm">Create New Request</Button>
           </div>
         </CardHeader>
-        <CardContent>
-          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mb-4 sm:mb-6">
+        <CardContent className="p-4 sm:p-6">
+          <div className="flex flex-col gap-2 sm:gap-3 mb-4">
             <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Search className="absolute left-2 sm:left-3 top-1/2 transform -translate-y-1/2 h-3 w-3 sm:h-4 sm:w-4 text-muted-foreground" />
               <Input
                 placeholder="Search requests..."
-                className="pl-10 text-sm"
+                className="pl-8 sm:pl-10 text-xs sm:text-sm h-9"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
             </div>
             <Select value={statusFilter} onValueChange={(value: any) => setStatusFilter(value)}>
-              <SelectTrigger className="w-full sm:w-[180px] text-sm">
-                <Filter className="h-4 w-4 mr-2" />
+              <SelectTrigger className="w-full sm:w-[180px] text-xs sm:text-sm h-9">
+                <Filter className="h-3 w-3 sm:h-4 sm:w-4 mr-2" />
                 <SelectValue placeholder="Filter by status" />
               </SelectTrigger>
               <SelectContent>

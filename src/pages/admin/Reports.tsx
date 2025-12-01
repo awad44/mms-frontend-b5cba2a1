@@ -101,82 +101,82 @@ Jun,67000`;
   };
 
   return (
-    <div className="space-y-6">
-        <div className="flex flex-col gap-4 sm:flex-row sm:justify-between sm:items-center">
+    <div className="space-y-4 sm:space-y-6">
+        <div className="flex flex-col gap-3 px-4 sm:px-0">
           <div>
-            <h1 className="text-2xl sm:text-3xl font-bold text-foreground">Reports & Analytics</h1>
-            <p className="text-sm sm:text-base text-muted-foreground">Comprehensive system insights and data analysis</p>
+            <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-foreground">Reports & Analytics</h1>
+            <p className="text-xs sm:text-sm md:text-base text-muted-foreground">Comprehensive system insights and data analysis</p>
           </div>
           <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
-            <Button variant="outline" className="gap-2 w-full sm:w-auto" onClick={() => exportReport('PDF')}>
-              <Download className="h-4 w-4" />
+            <Button variant="outline" className="gap-2 w-full sm:w-auto text-xs sm:text-sm h-9" onClick={() => exportReport('PDF')}>
+              <Download className="h-3 w-3 sm:h-4 sm:w-4" />
               Export PDF
             </Button>
-            <Button variant="outline" className="gap-2 w-full sm:w-auto" onClick={() => exportReport('Excel')}>
-              <FileText className="h-4 w-4" />
+            <Button variant="outline" className="gap-2 w-full sm:w-auto text-xs sm:text-sm h-9" onClick={() => exportReport('Excel')}>
+              <FileText className="h-3 w-3 sm:h-4 sm:w-4" />
               Export Excel
             </Button>
           </div>
         </div>
 
-        <div className="grid gap-4 md:grid-cols-4">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-2 sm:gap-4 px-4 sm:px-0">
           <Card>
-            <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium">Total Revenue</CardTitle>
-              <DollarSign className="h-4 w-4 text-muted-foreground" />
+            <CardHeader className="flex flex-row items-center justify-between pb-1 sm:pb-2 p-3 sm:p-4 md:p-6">
+              <CardTitle className="text-xs sm:text-sm font-medium">Total Revenue</CardTitle>
+              <DollarSign className="h-3 w-3 sm:h-4 sm:w-4 text-muted-foreground" />
             </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">$328,000</div>
-              <p className="text-xs text-muted-foreground">+12% from last period</p>
+            <CardContent className="p-3 sm:p-4 md:p-6 pt-0">
+              <div className="text-lg sm:text-xl md:text-2xl font-bold">$328K</div>
+              <p className="text-[10px] sm:text-xs text-muted-foreground">+12% from last period</p>
             </CardContent>
           </Card>
           <Card>
-            <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium">Active Citizens</CardTitle>
-              <Users className="h-4 w-4 text-muted-foreground" />
+            <CardHeader className="flex flex-row items-center justify-between pb-1 sm:pb-2 p-3 sm:p-4 md:p-6">
+              <CardTitle className="text-xs sm:text-sm font-medium">Active Citizens</CardTitle>
+              <Users className="h-3 w-3 sm:h-4 sm:w-4 text-muted-foreground" />
             </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">12,458</div>
-              <p className="text-xs text-muted-foreground">+8% from last month</p>
+            <CardContent className="p-3 sm:p-4 md:p-6 pt-0">
+              <div className="text-lg sm:text-xl md:text-2xl font-bold">12,458</div>
+              <p className="text-[10px] sm:text-xs text-muted-foreground">+8% from last month</p>
             </CardContent>
           </Card>
           <Card>
-            <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium">Total Requests</CardTitle>
-              <FileText className="h-4 w-4 text-muted-foreground" />
+            <CardHeader className="flex flex-row items-center justify-between pb-1 sm:pb-2 p-3 sm:p-4 md:p-6">
+              <CardTitle className="text-xs sm:text-sm font-medium">Total Requests</CardTitle>
+              <FileText className="h-3 w-3 sm:h-4 sm:w-4 text-muted-foreground" />
             </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">755</div>
-              <p className="text-xs text-muted-foreground">+24% from last month</p>
+            <CardContent className="p-3 sm:p-4 md:p-6 pt-0">
+              <div className="text-lg sm:text-xl md:text-2xl font-bold">755</div>
+              <p className="text-[10px] sm:text-xs text-muted-foreground">+24% from last month</p>
             </CardContent>
           </Card>
           <Card>
-            <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium">Active Projects</CardTitle>
-              <Briefcase className="h-4 w-4 text-muted-foreground" />
+            <CardHeader className="flex flex-row items-center justify-between pb-1 sm:pb-2 p-3 sm:p-4 md:p-6">
+              <CardTitle className="text-xs sm:text-sm font-medium">Active Projects</CardTitle>
+              <Briefcase className="h-3 w-3 sm:h-4 sm:w-4 text-muted-foreground" />
             </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">8</div>
-              <p className="text-xs text-muted-foreground">2 completed this month</p>
+            <CardContent className="p-3 sm:p-4 md:p-6 pt-0">
+              <div className="text-lg sm:text-xl md:text-2xl font-bold">8</div>
+              <p className="text-[10px] sm:text-xs text-muted-foreground">2 completed this month</p>
             </CardContent>
           </Card>
         </div>
 
-        <Tabs defaultValue="financial" className="space-y-4">
-          <TabsList>
-            <TabsTrigger value="financial">Financial</TabsTrigger>
-            <TabsTrigger value="requests">Citizen Requests</TabsTrigger>
-            <TabsTrigger value="projects">Projects</TabsTrigger>
-            <TabsTrigger value="hr">Human Resources</TabsTrigger>
+        <Tabs defaultValue="financial" className="space-y-4 px-4 sm:px-0">
+          <TabsList className="grid w-full grid-cols-2 sm:grid-cols-4 h-auto gap-1 sm:gap-0">
+            <TabsTrigger value="financial" className="text-xs sm:text-sm py-2">Financial</TabsTrigger>
+            <TabsTrigger value="requests" className="text-xs sm:text-sm py-2">Requests</TabsTrigger>
+            <TabsTrigger value="projects" className="text-xs sm:text-sm py-2">Projects</TabsTrigger>
+            <TabsTrigger value="hr" className="text-xs sm:text-sm py-2">HR</TabsTrigger>
           </TabsList>
 
           <TabsContent value="financial" className="space-y-4">
             <Card>
-              <CardHeader>
-                <CardTitle>Revenue vs Expenses</CardTitle>
-                <CardDescription>Monthly financial overview for the past 6 months</CardDescription>
+              <CardHeader className="p-4 sm:p-6">
+                <CardTitle className="text-base sm:text-lg md:text-xl">Revenue vs Expenses</CardTitle>
+                <CardDescription className="text-xs sm:text-sm">Monthly financial overview for the past 6 months</CardDescription>
               </CardHeader>
-              <CardContent>
+              <CardContent className="p-4 sm:p-6">
                 <ResponsiveContainer width="100%" height={300}>
                   <BarChart data={financialData}>
                     <CartesianGrid strokeDasharray="3 3" />
@@ -193,13 +193,13 @@ Jun,67000`;
           </TabsContent>
 
           <TabsContent value="requests" className="space-y-4">
-            <div className="grid gap-4 md:grid-cols-2">
+            <div className="grid gap-4 grid-cols-1 md:grid-cols-2">
               <Card>
-                <CardHeader>
-                  <CardTitle>Requests by Type</CardTitle>
-                  <CardDescription>Distribution of citizen service requests</CardDescription>
+                <CardHeader className="p-4 sm:p-6">
+                  <CardTitle className="text-base sm:text-lg md:text-xl">Requests by Type</CardTitle>
+                  <CardDescription className="text-xs sm:text-sm">Distribution of citizen service requests</CardDescription>
                 </CardHeader>
-                <CardContent>
+                <CardContent className="p-4 sm:p-6">
                   <ResponsiveContainer width="100%" height={300}>
                     <PieChart>
                       <Pie
@@ -222,11 +222,11 @@ Jun,67000`;
                 </CardContent>
               </Card>
               <Card>
-                <CardHeader>
-                  <CardTitle>Request Processing Time</CardTitle>
-                  <CardDescription>Average days to complete requests</CardDescription>
+                <CardHeader className="p-4 sm:p-6">
+                  <CardTitle className="text-base sm:text-lg md:text-xl">Request Processing Time</CardTitle>
+                  <CardDescription className="text-xs sm:text-sm">Average days to complete requests</CardDescription>
                 </CardHeader>
-                <CardContent>
+                <CardContent className="p-4 sm:p-6">
                   <div className="space-y-4">
                     <div className="flex items-center justify-between">
                       <span className="text-sm">Residency Certificate</span>
@@ -256,11 +256,11 @@ Jun,67000`;
 
           <TabsContent value="projects" className="space-y-4">
             <Card>
-              <CardHeader>
-                <CardTitle>Project Completion Trends</CardTitle>
-                <CardDescription>Completed vs in-progress projects over time</CardDescription>
+              <CardHeader className="p-4 sm:p-6">
+                <CardTitle className="text-base sm:text-lg md:text-xl">Project Completion Trends</CardTitle>
+                <CardDescription className="text-xs sm:text-sm">Completed vs in-progress projects over time</CardDescription>
               </CardHeader>
-              <CardContent>
+              <CardContent className="p-4 sm:p-6">
                 <ResponsiveContainer width="100%" height={300}>
                   <LineChart data={projectsData}>
                     <CartesianGrid strokeDasharray="3 3" />
@@ -278,11 +278,11 @@ Jun,67000`;
 
           <TabsContent value="hr" className="space-y-4">
             <Card>
-              <CardHeader>
-                <CardTitle>Employee Distribution</CardTitle>
-                <CardDescription>Staff count by department</CardDescription>
+              <CardHeader className="p-4 sm:p-6">
+                <CardTitle className="text-base sm:text-lg md:text-xl">Employee Distribution</CardTitle>
+                <CardDescription className="text-xs sm:text-sm">Staff count by department</CardDescription>
               </CardHeader>
-              <CardContent>
+              <CardContent className="p-4 sm:p-6">
                 <ResponsiveContainer width="100%" height={300}>
                   <BarChart data={employeeData} layout="vertical">
                     <CartesianGrid strokeDasharray="3 3" />
