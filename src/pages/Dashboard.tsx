@@ -74,7 +74,7 @@ const AdminDashboard = () => {
     <>
       <div>
         <h1 className="text-3xl font-bold text-foreground">Admin Dashboard</h1>
-        <p className="text-muted-foreground mt-1">Complete overview of municipality operations</p>
+        <p className="text-muted-foreground mt-1">Municipality overview</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -207,7 +207,7 @@ const CitizenDashboard = () => {
     <>
       <div>
         <h1 className="text-3xl font-bold text-foreground">My Dashboard</h1>
-        <p className="text-muted-foreground mt-1">Track your requests and manage your accounts</p>
+        <p className="text-muted-foreground mt-1">Track requests and payments</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -328,7 +328,7 @@ const FinanceDashboard = () => {
     <>
       <div>
         <h1 className="text-3xl font-bold text-foreground">Finance Dashboard</h1>
-        <p className="text-muted-foreground mt-1">Revenue, payments, and financial overview</p>
+        <p className="text-muted-foreground mt-1">Revenue and payments</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -398,7 +398,7 @@ const ProjectDashboard = () => {
     <>
       <div>
         <h1 className="text-3xl font-bold text-foreground">Projects Dashboard</h1>
-        <p className="text-muted-foreground mt-1">Active projects and budget tracking</p>
+        <p className="text-muted-foreground mt-1">Projects and budgets</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -456,7 +456,7 @@ const HRDashboard = () => {
     <>
       <div>
         <h1 className="text-3xl font-bold text-foreground">HR Dashboard</h1>
-        <p className="text-muted-foreground mt-1">Employee management and workforce analytics</p>
+        <p className="text-muted-foreground mt-1">Employee management</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -494,7 +494,7 @@ const ClerkDashboard = () => {
     <>
       <div>
         <h1 className="text-3xl font-bold text-foreground">Clerk Dashboard</h1>
-        <p className="text-muted-foreground mt-1">Process citizen requests and manage permits</p>
+        <p className="text-muted-foreground mt-1">Requests and permits</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
