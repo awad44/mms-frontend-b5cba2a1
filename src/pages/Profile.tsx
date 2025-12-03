@@ -112,7 +112,7 @@ export default function Profile() {
                 </div>
               </div>
               <div className="flex justify-end gap-2 pt-4">
-                <Button type="button" variant="outline" onClick={(e) => { e.preventDefault(); toast.info('Changes cancelled'); }}>Cancel</Button>
+                <Button type="button" variant="outline" onClick={(e) => { e.preventDefault(); e.stopPropagation(); toast.info('Changes cancelled'); }}>Cancel</Button>
                 <Button type="button" onClick={handleSaveProfile}>Save Changes</Button>
               </div>
             </CardContent>
@@ -179,7 +179,7 @@ export default function Profile() {
               </div>
             </div>
             <div className="flex justify-end gap-2 pt-4">
-              <Button type="button" variant="outline" onClick={(e) => { e.preventDefault(); toast.info('Password change cancelled'); }}>Cancel</Button>
+              <Button type="button" variant="outline" onClick={(e) => { e.preventDefault(); e.stopPropagation(); toast.info('Password change cancelled'); }}>Cancel</Button>
               <Button type="button" onClick={handleUpdatePassword}>Update Password</Button>
             </div>
           </CardContent>
