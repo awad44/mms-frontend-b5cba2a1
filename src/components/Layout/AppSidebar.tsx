@@ -1,8 +1,6 @@
-import { useLocation } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { NavLink } from '@/components/NavLink';
-import { useState, useEffect } from 'react';
-import { mockNotifications } from '@/lib/mockData';
+import { useNotifications } from '@/contexts/NotificationContext';
 import {
   Sidebar,
   SidebarContent,
@@ -33,13 +31,7 @@ import { Badge } from '@/components/ui/badge';
 export const AppSidebar = () => {
   const { user } = useAuth();
   const { open } = useSidebar();
-  const location = useLocation();
-  const [unreadCount, setUnreadCount] = useState(0);
-
-  useEffect(() => {
-    const count = mockNotifications.filter(n => !n.read).length;
-    setUnreadCount(count);
-  }, [location.pathname]);
+  const { unreadCount } = useNotifications();
 
   const getMenuItems = () => {
     const citizenItems = [
