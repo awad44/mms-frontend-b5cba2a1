@@ -1,6 +1,7 @@
 import { ReactNode } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
+import { useNotifications } from '@/contexts/NotificationContext';
 import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
 import { AppSidebar } from './AppSidebar';
 import { Bell, LogOut, User } from 'lucide-react';
@@ -21,6 +22,7 @@ interface DashboardLayoutProps {
 
 export const DashboardLayout = ({ children }: DashboardLayoutProps) => {
   const { user, logout } = useAuth();
+  const { unreadCount } = useNotifications();
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -55,12 +57,14 @@ export const DashboardLayout = ({ children }: DashboardLayoutProps) => {
                 onClick={() => navigate('/notifications')}
               >
                 <Bell className="h-5 w-5" />
-                <Badge
-                  variant="destructive"
-                  className="absolute -top-1 -right-1 h-5 w-5 rounded-full p-0 flex items-center justify-center text-xs"
-                >
-                  3
-                </Badge>
+                {unreadCount > 0 && (
+                  <Badge
+                    variant="destructive"
+                    className="absolute -top-1 -right-1 h-5 w-5 rounded-full p-0 flex items-center justify-center text-xs"
+                  >
+                    {unreadCount}
+                  </Badge>
+                )}
               </Button>
 
               <DropdownMenu>
