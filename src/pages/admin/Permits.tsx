@@ -15,7 +15,14 @@ import { Eye, Download, FileText } from 'lucide-react';
 import { mockPermits } from '@/lib/mockData';
 import { Progress } from '@/components/ui/progress';
 import { useToast } from '@/hooks/use-toast';
-import type { Permit } from '@/types';
+import type { Permit, RequestStatus } from '@/types';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 
 const workflowSteps = [
   { label: 'Submitted', status: 'completed' },
@@ -29,6 +36,27 @@ export default function Permits() {
   const { toast } = useToast();
   const [viewDialogOpen, setViewDialogOpen] = useState(false);
   const [selectedPermit, setSelectedPermit] = useState<Permit | null>(null);
+  const [permits, setPermits] = useState(mockPermits);
+
+  const handleStatusChange = (permitId: string, newStatus: RequestStatus) => {
+    setPermits(permits.map(permit => 
+      permit.id === permitId ? { ...permit, status: newStatus } : permit
+    ));
+    toast({
+      title: "Status Updated",
+      description: `Permit ${permitId} status changed to ${newStatus.replace('_', ' ')}.`,
+    });
+  };
+
+  const getStatusColor = (status: RequestStatus) => {
+    switch (status) {
+      case 'approved': return 'bg-success';
+      case 'in_review': return 'bg-warning';
+      case 'pending': return 'bg-accent';
+      case 'rejected': return 'bg-destructive';
+      default: return 'bg-muted';
+    }
+  };
 
   const handleViewPermit = (permit: Permit) => {
     setSelectedPermit(permit);
@@ -103,19 +131,40 @@ export default function Permits() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {mockPermits.map((permit) => (
+                  {permits.map((permit) => (
                     <TableRow key={permit.id}>
                       <TableCell className="font-medium">{permit.id}</TableCell>
                       <TableCell>{permit.citizenName}</TableCell>
                       <TableCell className="capitalize">{permit.type}</TableCell>
                       <TableCell>
-                        {permit.status === 'approved' ? (
-                          <Badge className="bg-success">Approved</Badge>
-                        ) : (
-                          <Badge className="bg-accent">In Review</Badge>
-                        )}
+                        <Select
+                          value={permit.status}
+                          onValueChange={(value: RequestStatus) => handleStatusChange(permit.id, value)}
+                        >
+                          <SelectTrigger className="w-[130px] h-8">
+                            <SelectValue>
+                              <Badge className={getStatusColor(permit.status)}>
+                                {permit.status === 'in_review' ? 'In Review' : permit.status.charAt(0).toUpperCase() + permit.status.slice(1)}
+                              </Badge>
+                            </SelectValue>
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="approved">
+                              <Badge className="bg-success">Approved</Badge>
+                            </SelectItem>
+                            <SelectItem value="in_review">
+                              <Badge className="bg-warning">In Review</Badge>
+                            </SelectItem>
+                            <SelectItem value="pending">
+                              <Badge className="bg-accent">Pending</Badge>
+                            </SelectItem>
+                            <SelectItem value="rejected">
+                              <Badge className="bg-destructive">Cancelled</Badge>
+                            </SelectItem>
+                          </SelectContent>
+                        </Select>
                       </TableCell>
-                      <TableCell>${permit.fee.toLocaleString()}</TableCell>
+                      <TableCell>${permit.fee?.toLocaleString()}</TableCell>
                       <TableCell>
                         <div className="flex gap-2">
                           <Button variant="ghost" size="icon" onClick={() => handleViewPermit(permit)}>

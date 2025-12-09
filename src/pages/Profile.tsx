@@ -3,11 +3,13 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useAuth } from '@/contexts/AuthContext';
-import { User, Mail, Phone, MapPin, Building, Calendar } from 'lucide-react';
+import { Mail, Building, Calendar, User } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { toast } from 'sonner';
 import { useRef } from 'react';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { getRolePhoto } from '@/lib/rolePhotos';
 
 export default function Profile() {
   const { user } = useAuth();
@@ -43,9 +45,12 @@ export default function Profile() {
           <Card className="md:col-span-1">
             <CardContent className="pt-6">
               <div className="flex flex-col items-center space-y-4">
-                <div className="h-32 w-32 rounded-full bg-primary/10 flex items-center justify-center">
-                  <User className="h-16 w-16 text-primary" />
-                </div>
+                <Avatar className="h-32 w-32">
+                  <AvatarImage src={getRolePhoto(user?.role || 'citizen')} alt={user?.name} />
+                  <AvatarFallback className="text-2xl">
+                    {user?.name?.split(' ').map(n => n[0]).join('') || 'U'}
+                  </AvatarFallback>
+                </Avatar>
                 <div className="text-center space-y-1">
                   <h2 className="text-xl font-semibold">{user?.name}</h2>
                   <Badge variant="secondary" className="capitalize">
@@ -97,7 +102,7 @@ export default function Profile() {
                 <Label htmlFor="address">Address</Label>
                 <Input id="address" placeholder="123 Main Street" />
               </div>
-              <div className="grid gap-4 md:grid-cols-3">
+              <div className="grid gap-4 md:grid-cols-2">
                 <div className="space-y-2">
                   <Label htmlFor="city">City</Label>
                   <Input id="city" placeholder="City" />
@@ -105,10 +110,6 @@ export default function Profile() {
                 <div className="space-y-2">
                   <Label htmlFor="state">State</Label>
                   <Input id="state" placeholder="State" />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="zip">ZIP Code</Label>
-                  <Input id="zip" placeholder="12345" />
                 </div>
               </div>
               <div className="flex justify-end gap-2 pt-4">
