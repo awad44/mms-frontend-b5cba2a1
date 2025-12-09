@@ -12,11 +12,21 @@ import {
 } from '@/components/ui/table';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { DollarSign, TrendingUp, Clock, AlertCircle, Download } from 'lucide-react';
+import { DollarSign, TrendingUp, Clock, AlertCircle, Download, Plus } from 'lucide-react';
 import { mockPayments } from '@/lib/mockData';
 import { PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { useToast } from '@/hooks/use-toast';
 import type { Payment } from '@/types';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { Checkbox } from '@/components/ui/checkbox';
 
 const revenueData = [
   { name: 'Property Tax', value: 450000, color: '#0088FE' },
@@ -35,11 +45,29 @@ const monthlyRevenue = [
   { month: 'Jun', collected: 91000, target: 80000 },
 ];
 
+// Mock citizens for selection
+const mockCitizens = [
+  { id: 'CIT001', name: 'John Smith' },
+  { id: 'CIT002', name: 'Sarah Johnson' },
+  { id: 'CIT003', name: 'Michael Brown' },
+  { id: 'CIT004', name: 'Emily Davis' },
+  { id: 'CIT005', name: 'Robert Wilson' },
+];
+
 export default function Finance() {
   const { toast } = useToast();
   const [activeTab, setActiveTab] = useState('all');
   const [receiptDialogOpen, setReceiptDialogOpen] = useState(false);
   const [selectedPayment, setSelectedPayment] = useState<Payment | null>(null);
+  const [payments, setPayments] = useState(mockPayments);
+  
+  // New payment form state
+  const [createPaymentOpen, setCreatePaymentOpen] = useState(false);
+  const [newPayment, setNewPayment] = useState({
+    payment_type: '' as Payment['payment_type'] | '',
+    amount: '',
+    selectedCitizens: [] as string[],
+  });
 
   const handleExportReport = () => {
     toast({
@@ -53,9 +81,62 @@ export default function Finance() {
     setReceiptDialogOpen(true);
   };
 
+  const handleCreatePayment = () => {
+    if (!newPayment.payment_type || !newPayment.amount || newPayment.selectedCitizens.length === 0) {
+      toast({
+        title: "Missing Information",
+        description: "Please fill in all required fields and select at least one citizen.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    const amount = parseFloat(newPayment.amount);
+    if (isNaN(amount) || amount <= 0) {
+      toast({
+        title: "Invalid Amount",
+        description: "Please enter a valid amount.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    // Create payments for each selected citizen
+    const newPayments: Payment[] = newPayment.selectedCitizens.map((citizenId, index) => {
+      const citizen = mockCitizens.find(c => c.id === citizenId);
+      return {
+        id: `PAY${String(payments.length + index + 1).padStart(3, '0')}`,
+        citizen_id: citizenId,
+        amount,
+        payment_type: newPayment.payment_type as Payment['payment_type'],
+        date: new Date().toISOString().split('T')[0],
+        status: 'pending' as const,
+        citizenName: citizen?.name || 'Unknown',
+      };
+    });
+
+    setPayments([...newPayments, ...payments]);
+    setNewPayment({ payment_type: '', amount: '', selectedCitizens: [] });
+    setCreatePaymentOpen(false);
+    
+    toast({
+      title: "Payment Created",
+      description: `${newPayments.length} payment(s) assigned successfully.`,
+    });
+  };
+
+  const toggleCitizenSelection = (citizenId: string) => {
+    setNewPayment(prev => ({
+      ...prev,
+      selectedCitizens: prev.selectedCitizens.includes(citizenId)
+        ? prev.selectedCitizens.filter(id => id !== citizenId)
+        : [...prev.selectedCitizens, citizenId]
+    }));
+  };
+
   const getFilteredPayments = () => {
-    if (activeTab === 'all') return mockPayments;
-    return mockPayments.filter(p => p.status === activeTab);
+    if (activeTab === 'all') return payments;
+    return payments.filter(p => p.status === activeTab);
   };
 
   return (
@@ -187,10 +268,16 @@ export default function Finance() {
               <CardTitle className="text-sm sm:text-lg md:text-xl">Payment Transactions</CardTitle>
               <CardDescription className="text-[10px] sm:text-sm">Recent activity</CardDescription>
             </div>
-            <Button onClick={handleExportReport} className="w-full sm:w-auto text-[10px] sm:text-sm h-8 sm:h-10">
-              <Download className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
-              Export
-            </Button>
+            <div className="flex flex-col sm:flex-row gap-2">
+              <Button onClick={() => setCreatePaymentOpen(true)} className="w-full sm:w-auto text-[10px] sm:text-sm h-8 sm:h-10">
+                <Plus className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
+                Create New Payment
+              </Button>
+              <Button onClick={handleExportReport} variant="outline" className="w-full sm:w-auto text-[10px] sm:text-sm h-8 sm:h-10">
+                <Download className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
+                Export
+              </Button>
+            </div>
           </div>
         </CardHeader>
         <CardContent className="p-3 sm:p-6">
@@ -299,6 +386,79 @@ export default function Finance() {
               </Button>
             </div>
           )}
+        </DialogContent>
+      </Dialog>
+
+      {/* Create New Payment Dialog */}
+      <Dialog open={createPaymentOpen} onOpenChange={setCreatePaymentOpen}>
+        <DialogContent className="sm:max-w-[500px] max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>Create New Payment</DialogTitle>
+            <DialogDescription>Assign a new payment to one or more citizens</DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="payment-type">Payment Type</Label>
+              <Select
+                value={newPayment.payment_type}
+                onValueChange={(value: Payment['payment_type']) => setNewPayment({ ...newPayment, payment_type: value })}
+              >
+                <SelectTrigger id="payment-type">
+                  <SelectValue placeholder="Select payment type" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="property_tax">Property Tax</SelectItem>
+                  <SelectItem value="water">Water Bill</SelectItem>
+                  <SelectItem value="electricity">Electricity</SelectItem>
+                  <SelectItem value="waste">Waste Management</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="amount">Amount ($)</Label>
+              <Input
+                id="amount"
+                type="number"
+                placeholder="Enter amount"
+                value={newPayment.amount}
+                onChange={(e) => setNewPayment({ ...newPayment, amount: e.target.value })}
+              />
+            </div>
+            <div className="space-y-2">
+              <Label>Select Citizens</Label>
+              <p className="text-xs text-muted-foreground mb-2">Select one or more citizens to assign this payment</p>
+              <div className="border rounded-md p-3 space-y-2 max-h-[200px] overflow-y-auto">
+                {mockCitizens.map((citizen) => (
+                  <div key={citizen.id} className="flex items-center space-x-2">
+                    <Checkbox
+                      id={citizen.id}
+                      checked={newPayment.selectedCitizens.includes(citizen.id)}
+                      onCheckedChange={() => toggleCitizenSelection(citizen.id)}
+                    />
+                    <label
+                      htmlFor={citizen.id}
+                      className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer"
+                    >
+                      {citizen.name}
+                    </label>
+                  </div>
+                ))}
+              </div>
+              {newPayment.selectedCitizens.length > 0 && (
+                <p className="text-xs text-muted-foreground">
+                  {newPayment.selectedCitizens.length} citizen(s) selected
+                </p>
+              )}
+            </div>
+            <div className="flex gap-2 pt-2">
+              <Button variant="outline" onClick={() => setCreatePaymentOpen(false)} className="flex-1">
+                Cancel
+              </Button>
+              <Button onClick={handleCreatePayment} className="flex-1">
+                Create Payment
+              </Button>
+            </div>
+          </div>
         </DialogContent>
       </Dialog>
     </div>

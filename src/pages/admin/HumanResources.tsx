@@ -19,6 +19,13 @@ import { Users, UserCheck, Clock, AlertCircle, Calendar } from 'lucide-react';
 import { mockEmployees, mockLeaves } from '@/lib/mockData';
 import { useToast } from '@/hooks/use-toast';
 import type { Employee, Leave } from '@/types';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 
 export default function HumanResources() {
   const { toast } = useToast();
@@ -32,14 +39,15 @@ export default function HumanResources() {
     email: '',
     position: '',
     department: '',
-    phone: ''
+    phone: '',
+    role: ''
   });
 
   const handleAddEmployee = () => {
-    if (!newEmployee.name || !newEmployee.email || !newEmployee.position) {
+    if (!newEmployee.name || !newEmployee.email || !newEmployee.position || !newEmployee.role) {
       toast({
         title: "Missing Information",
-        description: "Please fill in all required fields.",
+        description: "Please fill in all required fields including role.",
         variant: "destructive"
       });
       return;
@@ -47,10 +55,10 @@ export default function HumanResources() {
 
     toast({
       title: "Employee Added",
-      description: `${newEmployee.name} has been successfully added to the system.`,
+      description: `${newEmployee.name} has been successfully added as ${newEmployee.role.replace('_', ' ')}.`,
     });
 
-    setNewEmployee({ name: '', email: '', position: '', department: '', phone: '' });
+    setNewEmployee({ name: '', email: '', position: '', department: '', phone: '', role: '' });
     setAddEmployeeOpen(false);
   };
 
@@ -547,6 +555,24 @@ export default function HumanResources() {
                 onChange={(e) => setNewEmployee({...newEmployee, phone: e.target.value})}
                 placeholder="+1 234-567-8900"
               />
+            </div>
+            <div>
+              <Label htmlFor="emp-role">Role</Label>
+              <Select
+                value={newEmployee.role}
+                onValueChange={(value) => setNewEmployee({...newEmployee, role: value})}
+              >
+                <SelectTrigger id="emp-role">
+                  <SelectValue placeholder="Select role" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="admin">Admin</SelectItem>
+                  <SelectItem value="clerk">Clerk</SelectItem>
+                  <SelectItem value="finance">Finance Officer</SelectItem>
+                  <SelectItem value="hr_manager">HR Manager</SelectItem>
+                  <SelectItem value="project_manager">Project Manager</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
             <Button onClick={handleAddEmployee} className="w-full">Add Employee</Button>
           </div>
