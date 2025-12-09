@@ -15,6 +15,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Badge } from '@/components/ui/badge';
+import { getRolePhoto } from '@/lib/rolePhotos';
 
 interface DashboardLayoutProps {
   children: ReactNode;
@@ -70,9 +71,11 @@ export const DashboardLayout = ({ children }: DashboardLayoutProps) => {
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button variant="ghost" className="flex items-center gap-2">
-                    <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center">
-                      <User className="h-4 w-4 text-primary" />
-                    </div>
+                    <img 
+                      src={getRolePhoto(user?.role || 'citizen')} 
+                      alt="Profile" 
+                      className="h-8 w-8 rounded-full"
+                    />
                     <div className="text-left hidden md:block">
                       <p className="text-sm font-medium">{user?.name}</p>
                       <p className="text-xs text-muted-foreground capitalize">{user?.role.replace('_', ' ')}</p>
