@@ -21,6 +21,8 @@ import Reports from "./pages/admin/Reports";
 import MyRequests from "./pages/citizen/MyRequests";
 import MyPermits from "./pages/citizen/MyPermits";
 import MyPayments from "./pages/citizen/MyPayments";
+import CitizenEvents from "./pages/citizen/Events";
+import EmployeeEvents from "./pages/employee/Events";
 import Notifications from "./pages/Notifications";
 import Profile from "./pages/Profile";
 
@@ -62,6 +64,10 @@ const App = () => (
             <Route path="/citizen/requests" element={<ProtectedRoute allowedRoles={['citizen']}><DashboardLayout><MyRequests /></DashboardLayout></ProtectedRoute>} />
             <Route path="/citizen/permits" element={<ProtectedRoute allowedRoles={['citizen']}><DashboardLayout><MyPermits /></DashboardLayout></ProtectedRoute>} />
             <Route path="/citizen/payments" element={<ProtectedRoute allowedRoles={['citizen']}><DashboardLayout><MyPayments /></DashboardLayout></ProtectedRoute>} />
+            <Route path="/citizen/events" element={<ProtectedRoute allowedRoles={['citizen']}><DashboardLayout><CitizenEvents /></DashboardLayout></ProtectedRoute>} />
+            
+            {/* Employee Events Route */}
+            <Route path="/employee/events" element={<ProtectedRoute allowedRoles={['finance', 'project_manager', 'hr_manager', 'clerk']}><DashboardLayout><EmployeeEvents /></DashboardLayout></ProtectedRoute>} />
             
             {/* Shared Routes */}
             <Route path="/notifications" element={<ProtectedRoute><DashboardLayout><Notifications /></DashboardLayout></ProtectedRoute>} />

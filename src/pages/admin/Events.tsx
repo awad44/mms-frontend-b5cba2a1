@@ -1,11 +1,11 @@
 import { useState } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Calendar, Plus, Search, MapPin, Users, Clock, Filter, Edit, Eye } from 'lucide-react';
 import { mockEvents } from '@/lib/mockData';
-import { Event } from '@/types';
+import { Event, EventAudience } from '@/types';
 import {
   Dialog,
   DialogContent,
@@ -31,12 +31,14 @@ export default function Events() {
   const [searchQuery, setSearchQuery] = useState('');
   const [filterType, setFilterType] = useState<string>('all');
   const [filterStatus, setFilterStatus] = useState<string>('all');
+  const [filterAudience, setFilterAudience] = useState<string>('all');
   const [dialogOpen, setDialogOpen] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
   const [formData, setFormData] = useState({
     title: '',
     description: '',
     type: 'public' as Event['type'],
+    target_audience: 'public' as EventAudience,
     date: '',
     location: '',
     capacity: '',
@@ -47,7 +49,8 @@ export default function Events() {
                          event.description.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesType = filterType === 'all' || event.type === filterType;
     const matchesStatus = filterStatus === 'all' || event.status === filterStatus;
-    return matchesSearch && matchesType && matchesStatus;
+    const matchesAudience = filterAudience === 'all' || event.target_audience === filterAudience;
+    return matchesSearch && matchesType && matchesStatus && matchesAudience;
   });
 
   const getStatusColor = (status: Event['status']) => {
@@ -66,8 +69,29 @@ export default function Events() {
       case 'official': return 'bg-blue-500/10 text-blue-500';
       case 'cultural': return 'bg-pink-500/10 text-pink-500';
       case 'sports': return 'bg-orange-500/10 text-orange-500';
+      case 'internal': return 'bg-slate-500/10 text-slate-500';
       default: return 'bg-muted text-muted-foreground';
     }
+  };
+
+  const getAudienceLabel = (audience: EventAudience) => {
+    const labels: Record<EventAudience, string> = {
+      public: 'Public',
+      citizen: 'Citizens Only',
+      finance: 'Finance Team',
+      hr_manager: 'HR Team',
+      project_manager: 'Project Team',
+      clerk: 'Clerks',
+      all_employees: 'All Staff',
+    };
+    return labels[audience] || audience;
+  };
+
+  const getAudienceBadgeColor = (audience: EventAudience) => {
+    if (audience === 'public') return 'bg-purple-500/10 text-purple-500 border-purple-500/20';
+    if (audience === 'citizen') return 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20';
+    if (audience === 'all_employees') return 'bg-indigo-500/10 text-indigo-500 border-indigo-500/20';
+    return 'bg-amber-500/10 text-amber-500 border-amber-500/20';
   };
 
   const handleCreateEvent = () => {
@@ -81,6 +105,7 @@ export default function Events() {
       title: formData.title,
       description: formData.description,
       type: formData.type,
+      target_audience: formData.target_audience,
       date: formData.date,
       location: formData.location,
       capacity: formData.capacity ? parseInt(formData.capacity) : undefined,
@@ -95,6 +120,7 @@ export default function Events() {
       title: '',
       description: '',
       type: 'public',
+      target_audience: 'public',
       date: '',
       location: '',
       capacity: '',
@@ -112,6 +138,7 @@ export default function Events() {
       title: event.title,
       description: event.description,
       type: event.type,
+      target_audience: event.target_audience,
       date: event.date,
       location: event.location,
       capacity: event.capacity?.toString() || '',
@@ -135,6 +162,7 @@ export default function Events() {
                   title: '',
                   description: '',
                   type: 'public',
+                  target_audience: 'public',
                   date: '',
                   location: '',
                   capacity: '',
@@ -172,7 +200,7 @@ export default function Events() {
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="type">Type</Label>
+                    <Label htmlFor="type">Event Type</Label>
                     <Select value={formData.type} onValueChange={(value: Event['type']) => setFormData({ ...formData, type: value })}>
                       <SelectTrigger>
                         <SelectValue placeholder="Select type" />
@@ -182,9 +210,29 @@ export default function Events() {
                         <SelectItem value="official">Official</SelectItem>
                         <SelectItem value="cultural">Cultural</SelectItem>
                         <SelectItem value="sports">Sports</SelectItem>
+                        <SelectItem value="internal">Internal</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="audience">Target Audience *</Label>
+                    <Select value={formData.target_audience} onValueChange={(value: EventAudience) => setFormData({ ...formData, target_audience: value })}>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select audience" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="public">Public (Everyone)</SelectItem>
+                        <SelectItem value="citizen">Citizens Only</SelectItem>
+                        <SelectItem value="all_employees">All Staff</SelectItem>
+                        <SelectItem value="finance">Finance Team</SelectItem>
+                        <SelectItem value="hr_manager">HR Team</SelectItem>
+                        <SelectItem value="project_manager">Project Team</SelectItem>
+                        <SelectItem value="clerk">Clerks</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="date">Date *</Label>
                     <Input 
@@ -192,6 +240,16 @@ export default function Events() {
                       type="date"
                       value={formData.date}
                       onChange={(e) => setFormData({ ...formData, date: e.target.value })}
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="capacity">Capacity</Label>
+                    <Input 
+                      id="capacity" 
+                      type="number" 
+                      placeholder="100"
+                      value={formData.capacity}
+                      onChange={(e) => setFormData({ ...formData, capacity: e.target.value })}
                     />
                   </div>
                 </div>
@@ -239,9 +297,9 @@ export default function Events() {
                   className="pl-10"
                 />
               </div>
-              <div className="flex gap-2">
+              <div className="flex flex-wrap gap-2">
                 <Select value={filterType} onValueChange={setFilterType}>
-                  <SelectTrigger className="w-[140px]">
+                  <SelectTrigger className="w-[130px]">
                     <Filter className="h-4 w-4 mr-2" />
                     <SelectValue />
                   </SelectTrigger>
@@ -251,10 +309,26 @@ export default function Events() {
                     <SelectItem value="official">Official</SelectItem>
                     <SelectItem value="cultural">Cultural</SelectItem>
                     <SelectItem value="sports">Sports</SelectItem>
+                    <SelectItem value="internal">Internal</SelectItem>
+                  </SelectContent>
+                </Select>
+                <Select value={filterAudience} onValueChange={setFilterAudience}>
+                  <SelectTrigger className="w-[140px]">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">All Audience</SelectItem>
+                    <SelectItem value="public">Public</SelectItem>
+                    <SelectItem value="citizen">Citizens</SelectItem>
+                    <SelectItem value="all_employees">All Staff</SelectItem>
+                    <SelectItem value="finance">Finance</SelectItem>
+                    <SelectItem value="hr_manager">HR</SelectItem>
+                    <SelectItem value="project_manager">Projects</SelectItem>
+                    <SelectItem value="clerk">Clerks</SelectItem>
                   </SelectContent>
                 </Select>
                 <Select value={filterStatus} onValueChange={setFilterStatus}>
-                  <SelectTrigger className="w-[140px]">
+                  <SelectTrigger className="w-[130px]">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
@@ -282,6 +356,9 @@ export default function Events() {
                           </Badge>
                           <Badge variant="secondary" className={getTypeColor(event.type)}>
                             {event.type}
+                          </Badge>
+                          <Badge variant="outline" className={getAudienceBadgeColor(event.target_audience)}>
+                            {getAudienceLabel(event.target_audience)}
                           </Badge>
                         </div>
                         <p className="text-sm text-muted-foreground">{event.description}</p>

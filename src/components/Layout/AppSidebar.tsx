@@ -39,6 +39,7 @@ export const AppSidebar = () => {
       { title: 'My Requests', url: '/citizen/requests', icon: ClipboardList },
       { title: 'My Permits', url: '/citizen/permits', icon: FileText },
       { title: 'My Payments', url: '/citizen/payments', icon: CreditCard },
+      { title: 'Events', url: '/citizen/events', icon: Calendar },
       { title: 'Notifications', url: '/notifications', icon: Bell },
     ];
 
@@ -57,6 +58,7 @@ export const AppSidebar = () => {
     const financeItems = [
       { title: 'Dashboard', url: '/dashboard', icon: LayoutDashboard },
       { title: 'Finance', url: '/admin/finance', icon: DollarSign },
+      { title: 'Events', url: '/employee/events', icon: Calendar },
       { title: 'Reports', url: '/admin/reports', icon: BarChart3 },
       { title: 'Notifications', url: '/notifications', icon: Bell },
     ];
@@ -64,6 +66,7 @@ export const AppSidebar = () => {
     const projectItems = [
       { title: 'Dashboard', url: '/dashboard', icon: LayoutDashboard },
       { title: 'Projects', url: '/admin/projects', icon: Building2 },
+      { title: 'Events', url: '/employee/events', icon: Calendar },
       { title: 'Reports', url: '/admin/reports', icon: BarChart3 },
       { title: 'Notifications', url: '/notifications', icon: Bell },
     ];
@@ -71,6 +74,7 @@ export const AppSidebar = () => {
     const hrItems = [
       { title: 'Dashboard', url: '/dashboard', icon: LayoutDashboard },
       { title: 'Human Resources', url: '/admin/hr', icon: UserCog },
+      { title: 'Events', url: '/employee/events', icon: Calendar },
       { title: 'Reports', url: '/admin/reports', icon: BarChart3 },
       { title: 'Notifications', url: '/notifications', icon: Bell },
     ];
@@ -79,6 +83,7 @@ export const AppSidebar = () => {
       { title: 'Dashboard', url: '/dashboard', icon: LayoutDashboard },
       { title: 'Citizen Services', url: '/admin/citizen-services', icon: Users },
       { title: 'Permits', url: '/admin/permits', icon: FileText },
+      { title: 'Events', url: '/employee/events', icon: Calendar },
       { title: 'Notifications', url: '/notifications', icon: Bell },
     ];
 
