@@ -139,18 +139,20 @@ export interface Leave {
   employeeName?: string;
 }
 
+export type EventAudience = 'public' | 'citizen' | 'finance' | 'hr_manager' | 'project_manager' | 'clerk' | 'all_employees';
+
 export interface Event {
   id: string;
   title: string;
   description: string;
   date: string;
-  target_audience?: string;
+  target_audience: EventAudience;
   // Display fields
   location?: string;
   organizer?: string;
   capacity?: number;
   registered?: number;
-  type?: 'public' | 'official' | 'cultural' | 'sports';
+  type?: 'public' | 'official' | 'cultural' | 'sports' | 'internal';
   status?: 'upcoming' | 'ongoing' | 'completed' | 'cancelled';
 }
 
