@@ -1,11 +1,15 @@
-// Static role avatars - generic predefined avatars for each system role
+// Static role avatars - predefined photos for each system role
+import citizenPhoto from '@/assets/citizen-photo.jpg';
+import financePhoto from '@/assets/finance-photo.jpg';
+import adminPhoto from '@/assets/admin-photo.jpg';
+
 export const rolePhotos: Record<string, string> = {
-  admin: 'https://api.dicebear.com/7.x/avataaars/svg?seed=admin&backgroundColor=b6e3f4',
+  admin: adminPhoto,
   clerk: 'https://api.dicebear.com/7.x/avataaars/svg?seed=clerk&backgroundColor=c0aede',
-  finance: 'https://api.dicebear.com/7.x/avataaars/svg?seed=finance&backgroundColor=d1d4f9',
+  finance: financePhoto,
   hr_manager: 'https://api.dicebear.com/7.x/avataaars/svg?seed=hrmanager&backgroundColor=ffd5dc',
   project_manager: 'https://api.dicebear.com/7.x/avataaars/svg?seed=projectmgr&backgroundColor=ffdfbf',
-  citizen: 'https://api.dicebear.com/7.x/avataaars/svg?seed=citizen&backgroundColor=c1f4c5',
+  citizen: citizenPhoto,
 };
 
 export const getRolePhoto = (role: string): string => {
